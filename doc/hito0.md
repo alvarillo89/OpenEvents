@@ -9,7 +9,7 @@ justifican la configuración apropiada de Git para la asignatura.
 
 - [X] Incrementar la seguridad de nuestra cuenta en GitHub activando el segundo factor de autenticación.
 
-![](imgs/Hito0/twoFactorAuth.png)ç
+![](imgs/Hito0/twoFactorAuth.png)
 
 - [X] Creación de par de claves y subida de clave pública a GitHub.
 

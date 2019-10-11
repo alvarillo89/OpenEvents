@@ -13,7 +13,7 @@ extra al usuario. Está pensada como un lugar seguro en el que almacenar fichero
 
 #### Funcionalidad:
 
-Los usuarios deberán registrarse con un nombre de usuario y una contaseña. Además,
+Los usuarios deberán registrarse con un nombre de usuario y una contraseña. Además,
 podrán establecer una clave maestra para desencriptar todos sus archivos o especificar
 una clave concreta para cada uno de ellos. Por supuesto, las comunicaciones entre los
 distintos servicios deberán realizarse también de forma segura.
@@ -37,7 +37,7 @@ realizar una implementación políglota, especialmente si se encuentra algún le
 
 Se necesita almacenar lo siguiente:
 
-- Datos de usuarios (login, constraseña y claves).
+- Datos de usuarios (login, contraseña y claves).
 - Ficheros/archivos subidos a la plataforma por cada usuario.
 
 Puesto que no todos los archivos que almacenarán los usuarios tendrán la misma estructura, para esta aplicación resulta más útil utilizar una base de datos NoSQL.
