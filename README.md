@@ -1,46 +1,53 @@
 # Proyecto de la asignatura Cloud Computing (UGR)
 
-Puede consultar la documentación adicional a la entrega del hito 0 en [este enlace.](https://github.com/alvarillo89/UGR-CC-Project/blob/master/doc/hito0.md)
+Puede consultar cómo se configuró Git y Github para el proyecto en [este enlace.](https://github.com/alvarillo89/UGR-CC-Project/blob/master/doc/hito0.md)
 
-## Virtual Safe Box
+## OpenEvent
 
-#### Descripción:
+`OpenEvent` es una aplicación open source que permite a organizadores de cualquier tipo publicar información sobre sus eventos y vender entradas para los mismos mediante pagos electrónicos. Todo ello a través de la nube.
 
-Se plantea la creación de una aplicación de almacenamiento en la nube, con la particularidad
-de que esta actuará como una *"Caja Fuerte Virtual"*, es decir, todos aquellos archivos y
-documentos que se almacenen remotamente permanecerán encriptados para brindar una seguridad 
-extra al usuario. Está pensada como un lugar seguro en el que almacenar ficheros sensibles.
+#### Entidades del dominio del problema:
 
-#### Funcionalidad:
+Las entidades en las que se puede dividir el dominio del problema son las siguientes:
 
-Los usuarios deberán registrarse con un nombre de usuario y una contraseña para poder gestionar y recuperar apropiadamente todos sus archivos. Cada vez que un nuevo usuario ingresa en la plataforma, esta genera una clave única que será remitida al usuario. Dicha clave será empleada por defecto para cifrar simétricamente los distintos archivos subidos. También se ofrece la posibilidad de generar una nueva clave para cifrar un único archivo en concreto. Por supuesto, las comunicaciones entre los
-distintos servicios deberán realizarse de forma segura.
++ Evento: un evento es un suceso social, artístico o deportivo que se encuentra previamente programado. Está formado por un organizador, un título, la fecha y hora en la que se producirá, su dirección, una descripción, el número de entradas disponibles, el coste de las mismas y los datos de pago del organizador. A su vez, las funcionalidades asociadas a esta entidad son: 
+    - Creación de un nuevo evento.
+    - Modificación, por parte del organizador, de algunos datos de un evento existente.
+    - Eliminación de un evento existente.
+    - Consulta de los datos de un evento.
++ Entrada: una entrada es el documento que acredita a una persona para el acceso a un determinado evento. Está formada por el título del evento al que pertenece, el nombre del propietario de la entrada y un código de validación. Las funcionalidades asociadas son:
+    + Comprar una entrada, procesando el pago correspondiente.
+    + Generar el documento que representa la entrada y que deberá ser presentado en el evento. Incluye el código de validación.
+    + Consultar si una entrada es válida o no, a partir de su código de validación.
+
 
 #### Arquitectura:
 
-La aplicación se implementará siguiendo una arquitectura de microservicios con comunicación basada en eventos. Los archivos subidos a la plataforma presentarán una gran variedad de tamaños y complejidades, por lo que es imposible saber a priori y con exactitud cuanto tiempo llevará encriptarlos o desencriptarlos. Para este tipo de tareas, en las que desconoce el tiempo que se tardará en completarlas, los eventos son de gran utilidad.
+La aplicación se implementará siguiendo una arquitectura basada en microservicios. Cada una de las entidades del dominio del problema extraídas en el apartado anterior se asociarán a un microservicio diferente: 
 
-A continuación, se muestra una descripción  detallada de cada uno de los microservicios involucrados:
++ `EventManager`: este microservicio implementará todas las funcionalidades asociadas con la entidad `Evento`.
++ `TicketManager`: se encargará de procesar el pago de una determinada entrada y generar el documento asociado. Al mismo tiempo, almacenará el registro de pago y el código de validación de la misma para futuras comprobaciones. 
 
-- Gestor de usuarios. Encargado de dar de alta a nuevos usuarios y verificar los inicios de sesión. Necesario para poder asociar un archivo con su correspondiente propietario.
-- Encriptador. Microservicio encargado de generar las claves de cifrado simétrico, cifrar los archivos con las mismas y almacenar los ficheros en el almacén de datos.
-- Desencriptador. Recibida la clave y el fichero, realiza el desencriptado del mismo para que pueda ser devuelto al usuario.
-
-Para finalizar, aquí se muestra un grafo con la arquitectura de la aplicación:
+Aquí se muestra un grafo con la arquitectura de la aplicación:
 
 ![](doc/imgs/Hito0/Arquitectura.png)
 
+Como puede observarse, se empleará una API Gateway que actúe como enrutador entre los distintos microservicios. Además, cada uno de ellos dispondrá de su propia API Rest para las comunicaciones.
+
 #### Tecnologías y lenguajes:
 
-Puesto que la comunicación entre los distintos microservicios estará basada en eventos, puede resultar interesante implementar el sistema en `Python`, para así poder hacer uso del módulo [Celery](http://www.celeryproject.org/). Dicho módulo permite gestionar una cola de tareas asíncronas basada en paso de mensajes distribuidos. Además, `Python` proporciona módulos sencillos de utilizar para la criptografía (veáse [pycrypto](https://pypi.org/project/pycrypto/)). No obstante, no se descarta realizar una implementación políglota, utilizando un segundo lenguaje para el microservicio `Gestor de usuarios`.
+Se plantea realizar una implementación políglota, es decir, cada microservicio empleará un lenguaje diferente:
 
-Finalmente, como broker de mensajería, se utilizará [RabbitMQ](https://www.rabbitmq.com/). Presenta una integración sencilla con Celery y es de los más extendidos.
++ `EventManager`: se implementará en `Ruby`.
++ `TicketManager`: se implementará en `Python`, el cual proporciona módulos que facilitan la realización de las funcionalidades que proporciona este microservicio, tales como generar códigos y PDFs.
+
+Por último, para el sistema de configuración distribuida se utilizará [etcd](https://etcd.io/).
 
 #### Almacenes de datos:
 
 Se necesita almacenar lo siguiente:
 
-- Datos de usuarios (username y contraseña).
-- Archivos subidos a la plataforma por cada usuario y que permanecen cifrados.
+- Datos de Eventos.
+- Registros de pago de las entradas y códigos de validación para futuras comprobaciones.
 
-Puesto que no todos los archivos que almacenarán los usuarios tendrán la misma estructura, para esta aplicación resulta más útil utilizar almacenes de datos NoSQL.
+Puesto que lo que nos interesa es recuperar eficientemente información (ya sea de eventos o de pagos realizados) a partir de identificadores (como puede ser el identificador del evento o el código de validación de una entrada) utilizaremos almacenes de datos basados en clave-valor, como por ejemplo [Apache Cassandra](http://cassandra.apache.org/).
