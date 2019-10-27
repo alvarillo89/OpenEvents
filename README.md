@@ -1,3 +1,5 @@
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 # Proyecto de la asignatura Cloud Computing (UGR)
 
 Puede consultar cómo se configuró Git y Github para el proyecto en [este enlace.](https://github.com/alvarillo89/UGR-CC-Project/blob/master/doc/hito0.md)
@@ -6,42 +8,26 @@ Puede consultar cómo se configuró Git y Github para el proyecto en [este enlac
 
 `OpenEvent` es una aplicación open source que permite a organizadores de cualquier tipo publicar información sobre sus eventos y vender entradas para los mismos mediante pagos electrónicos. Todo ello a través de la nube.
 
-#### Entidades del dominio del problema:
+### Arquitectura:
 
-Las entidades en las que se puede dividir el dominio del problema son las siguientes:
+La aplicación se implementará siguiendo una arquitectura basada en microservicios. Cada una de las entidades extraídas en el [análisis del dominio del problema](https://github.com/alvarillo89/UGR-CC-Project/blob/master/doc/hito0-DDD.md) se asociarán a un microservicio diferente: 
 
-+ Evento: un evento es un suceso social, artístico o deportivo que se encuentra previamente programado. Está formado por un organizador, un título, la fecha y hora en la que se producirá, su dirección, una descripción, el número de entradas disponibles, el coste de las mismas y los datos de pago del organizador. A su vez, las funcionalidades asociadas a esta entidad son: 
-    - Creación de un nuevo evento.
-    - Modificación, por parte del organizador, de algunos datos de un evento existente.
-    - Eliminación de un evento existente.
-    - Consulta de los datos de un evento.
-+ Entrada: una entrada es el documento que acredita a una persona para el acceso a un determinado evento. Está formada por el título del evento al que pertenece, el nombre del propietario de la entrada y un código de validación. Las funcionalidades asociadas son:
-    + Comprar una entrada, procesando el pago correspondiente.
-    + Generar el documento que representa la entrada y que deberá ser presentado en el evento. Incluye el código de validación.
-    + Consultar si una entrada es válida o no, a partir de su código de validación.
-
-
-#### Arquitectura:
-
-La aplicación se implementará siguiendo una arquitectura basada en microservicios. Cada una de las entidades del dominio del problema extraídas en el apartado anterior se asociarán a un microservicio diferente: 
-
-+ `EventManager`: este microservicio implementará todas las funcionalidades asociadas con la entidad `Evento`.
++ `EventManager`: este microservicio implementará todas las funcionalidades asociadas con la entidad `Evento`: creación, modificación, borrado y consulta de eventos.
 + `TicketManager`: se encargará de procesar el pago de una determinada entrada y generar el documento asociado. Al mismo tiempo, almacenará el registro de pago y el código de validación de la misma para futuras comprobaciones. 
 
 Aquí se muestra un grafo con la arquitectura de la aplicación:
 
 ![](doc/imgs/Hito0/Arquitectura.png)
 
-Como puede observarse, se empleará una API Gateway que actúe como enrutador entre los distintos microservicios. Además, cada uno de ellos dispondrá de su propia API Rest para las comunicaciones.
+Cada microservicio dispondrá de su propia API Rest para las comunicaciones.
 
-#### Tecnologías y lenguajes:
+### Servicios:
 
-Se plantea realizar una implementación políglota, es decir, cada microservicio empleará un lenguaje diferente:
+A continuación se muestra una lista de los distintos servicios que se utilizarán para este proyecto:
 
-+ `EventManager`: se implementará en `Ruby`.
-+ `TicketManager`: se implementará en `Python`, el cual proporciona módulos que facilitan la realización de las funcionalidades que proporciona este microservicio, tales como generar códigos y PDFs.
-
-Por último, para el sistema de configuración distribuida se utilizará [etcd](https://etcd.io/).
+- Para el sistema de configuración distribuida se utilizará [etcd](https://etcd.io/).
+- Para el sistema de logging centralizado se utilizará [Logstash](https://www.elastic.co/es/products/logstash) + [Elasticsearch](https://github.com/elastic/elasticsearch). 
+- Para la API Gateway se empleará [traefik](https://traefik.io/), por lo sencillo que es de utilizar y de configurar. 
 
 #### Almacenes de datos:
 
@@ -50,4 +36,12 @@ Se necesita almacenar lo siguiente:
 - Datos de Eventos.
 - Registros de pago de las entradas y códigos de validación para futuras comprobaciones.
 
-Puesto que lo que nos interesa es recuperar eficientemente información (ya sea de eventos o de pagos realizados) a partir de identificadores (como puede ser el identificador del evento o el código de validación de una entrada) utilizaremos almacenes de datos basados en clave-valor, como por ejemplo [Apache Cassandra](http://cassandra.apache.org/).
+Puesto que lo que nos interesa es recuperar eficientemente información (ya sea de eventos o de pagos realizados) a partir de identificadores (como puede ser el identificador del evento o el código de validación de una entrada) utilizaremos almacenes de datos basados en clave-valor. Para este proyecto, se empleará [Redis](https://redis.io/). De entre todas las funciones que ofrece, también puede utilizarse como un almacén *key-value* muy eficiente.
+
+### Lenguajes y dependencias:
+
+Los dos microservicios se implementarán en `Python`. Se ha escogido este lenguaje porque proporciona módulos que facilitan la implementación de algunas operaciones del microservicio `TicketManager`, como la generación de códigos de barras que codifiquen el código de validación de las entradas (para lo que se usará el módulo [treepoem](https://pypi.org/project/treepoem/)) y la creación de archivos PDF (para lo que se utilizará [reportlab](https://pypi.org/project/reportlab/)).
+
+El microservicio `EventManager` no presenta ninguna funcionalidad que sea más facil de implementar en algún otro lenguaje, por tanto y de cara a facilitar la creación de los tests, también se implementará en `Python`.
+
+Por último, para implementar las APIs Rest, se utilizará [hug](https://www.hug.rest/), un módulo que destaca por simplificar enormemente el desarrollo de APIs (sobre todo con múltiples interfaces de acceso), generando código simple, limpio y con un alto grado de eficiencia.
