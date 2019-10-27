@@ -25,9 +25,10 @@ Cada microservicio dispondrá de su propia API Rest para las comunicaciones.
 
 A continuación se muestra una lista de los distintos servicios que se utilizarán para este proyecto:
 
-- Para el sistema de configuración distribuida se utilizará [etcd](https://etcd.io/).
-- Para el sistema de logging centralizado se utilizará [Logstash](https://www.elastic.co/es/products/logstash) + [Elasticsearch](https://github.com/elastic/elasticsearch). 
-- Para la API Gateway se empleará [traefik](https://traefik.io/), por lo sencillo que es de utilizar y de configurar. 
+- Para el sistema de logging centralizado se utilizará [Logstash](https://www.elastic.co/es/products/logstash) + [Elasticsearch](https://github.com/elastic/elasticsearch). Una de las alternativas más populares hoy día.
+- Para la API Gateway se empleará [traefik](https://traefik.io/), por lo sencillo que es de utilizar, de configurar y todas las funcionalidades que ofrece. Además está especificamente diseñado para aplicaciones basadas en HTTP, como es el caso de este proyecto.
+- Para el sistema de configuración distribuida se utilizará [etcd](https://etcd.io/), el cual cubre todas las necesidades requeridas para el proyecto.
+
 
 #### Almacenes de datos:
 
