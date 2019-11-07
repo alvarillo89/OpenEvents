@@ -42,3 +42,13 @@ class Events:
     def remove(self, id):
         event = self.search_by_id(id)
         self.event_list.remove(event[0])
+    
+
+    def modify(self, id, new_values):
+        event = self.search_by_id(id)
+        index = self.event_list.index(event[0])
+
+        for key in new_values.keys():
+            if key not in event[0].keys():
+                raise KeyError("An event does not have a field called " + str(key))
+            self.event_list[index][key] = new_values[key]
