@@ -2,7 +2,7 @@
 
 # Proyecto de la asignatura Cloud Computing (UGR)
 
-Puede consultar cómo se configuró Git y Github para el proyecto en [este enlace.](https://github.com/alvarillo89/UGR-CC-Project/blob/master/doc/hito0.md)
+Puede consultar cómo se configuró Git y Github para el proyecto en [este enlace.](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/hito0.md)
 
 ## OpenEvent
 
@@ -10,7 +10,7 @@ Puede consultar cómo se configuró Git y Github para el proyecto en [este enlac
 
 ### Arquitectura:
 
-La aplicación se implementará siguiendo una arquitectura basada en microservicios. Cada una de las entidades extraídas en el [análisis del dominio del problema](https://github.com/alvarillo89/UGR-CC-Project/blob/master/doc/hito0-DDD.md) se asociarán a un microservicio diferente: 
+La aplicación se implementará siguiendo una arquitectura basada en microservicios. Cada una de las entidades extraídas en el [análisis del dominio del problema](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/hito0-DDD.md) se asociarán a un microservicio diferente: 
 
 + `EventManager`: este microservicio implementará todas las funcionalidades asociadas con la entidad `Evento`: creación, modificación, borrado y consulta de eventos.
 + `TicketManager`: se encargará de procesar el pago de una determinada entrada y generar el documento asociado. Al mismo tiempo, almacenará el registro de pago y el código de validación de la misma para futuras comprobaciones. 
