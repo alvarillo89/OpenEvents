@@ -3,13 +3,12 @@
 import uuid
 
 class Events:
-    # Data Base handler injection:
     def __init__(self):
         self.event_list = []
 
 
     def create(self, title, organizer, date, address, description, prize, tickets_availables):
-        if len(self.search_by_title(title)) == 0:
+        if self.search_by_title(title) == []:
             ID = uuid.uuid1().hex
             item = dict(
                 ID=ID,
@@ -33,3 +32,12 @@ class Events:
 
     def search_by_id(self, id):
         return [event for event in self.event_list if event["ID"]==id]
+    
+
+    def remove(self, id):
+        event = self.search_by_id(id)
+
+        if event == []:
+            raise LookupError("There is no event with that ID")
+
+        self.event_list.remove(event[0])
