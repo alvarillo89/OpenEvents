@@ -31,13 +31,14 @@ class Events:
     
 
     def search_by_id(self, id):
-        return [event for event in self.event_list if event["ID"]==id]
-    
+        res = [event for event in self.event_list if event["ID"]==id]
+
+        if res == []:
+            raise LookupError("There is no event with that ID")
+
+        return res
+
 
     def remove(self, id):
         event = self.search_by_id(id)
-
-        if event == []:
-            raise LookupError("There is no event with that ID")
-
         self.event_list.remove(event[0])
