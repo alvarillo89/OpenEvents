@@ -17,7 +17,7 @@ La aplicación se implementará siguiendo una arquitectura basada en microservic
 
 Aquí se muestra un grafo con la arquitectura de la aplicación:
 
-![](doc/imgs/Hito0/Arquitectura.png)
+![](docs/imgs/Hito0/Arquitectura.png)
 
 Cada microservicio dispondrá de su propia API Rest para las comunicaciones.
 
