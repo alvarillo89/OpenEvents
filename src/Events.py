@@ -28,4 +28,8 @@ class Events:
     
 
     def search_by_title(self, title):
-        return [event for event in self.event_list if event["title"]==title]    
+        return [event for event in self.event_list if event["title"]==title]
+    
+
+    def search_by_id(self, id):
+        return [event for event in self.event_list if event["ID"]==id]
