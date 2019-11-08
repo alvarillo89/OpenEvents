@@ -130,7 +130,7 @@ class TestEvents(unittest.TestCase):
         with self.assertRaises(KeyError):
             self.events.modify(self.sample_id, new_values)
 
-        # Trying to modify event's ID:
+        # Trying to modify event's ID: 
         new_values = dict(ID="my-custom-id")
         with self.assertRaises(KeyError):
             self.events.modify(self.sample_id, new_values)
