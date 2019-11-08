@@ -51,4 +51,6 @@ class Events:
         for key in new_values.keys():
             if key not in event[0].keys():
                 raise KeyError("An event does not have a field called " + str(key))
+            if key == "ID":
+                raise KeyError("ID field cannot been modified")
             self.event_list[index][key] = new_values[key]
