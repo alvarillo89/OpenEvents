@@ -20,6 +20,6 @@ install:
 script:
   - make test
 
-# Send coverture report to Codecov:
+# Send coverage report to Codecov:
 after_success:
   - codecov
