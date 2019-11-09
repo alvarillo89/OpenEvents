@@ -10,22 +10,22 @@ Puede consultar cómo se configuró Git y Github para el proyecto en [este enlac
 
 `OpenEvent` es una aplicación open source que permite a organizadores de cualquier tipo publicar información sobre sus eventos y vender entradas para los mismos mediante pagos electrónicos. Todo ello a través de la nube.
 
-### Arquitectura e Infraestructura:
+### Arquitectura e Infraestructura
 
-La aplicación se implementará siguiendo una arquitectura basada en microservicios. Puede consultar con mayor detalle la **Arquitectura e Infraestructura** del proyecto en el [siguiente enlace](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/hito1.md).
+La aplicación se implementará siguiendo una arquitectura basada en microservicios. Puede consultar con mayor detalle la *Arquitectura e Infraestructura* del proyecto en el [siguiente enlace](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/hito1.md).
 
+---
 
-### Pre-requisitos y versiones
+### Prerrequisitos y versiones
 
-El siguiente cuadro resume las versiones de `Python` compatibles:
++ Mínima versión de Python compatible:  3.4 
++ Máxima versión de Python compatible:  3.8 (incluída la versión en desarrollo)
 
-| **Mínima versión compatible** | 3.4 |
-|--|--|
-| **Máxima versión compatible** | 3.8 (incluída la versión en desarrollo)|
-
-*Nota: en Windows solo se ha comprobado hasta la versión 3.7, se desconoce el comportamiento para la versión 3.8*.
+> *Nota: en Windows solo se ha comprobado hasta la versión 3.7, se desconoce el comportamiento para la versión 3.8*.
 
 Adicionalmente, deberá disponerse de la herramienta `Makefile`.
+
+---
 
 ### Herramienta de construcción
 
@@ -43,12 +43,12 @@ make install
 make test
 ```
 
-*Ejecuta los tests del proyecto, tanto tests unitarios como de covertura.*
+*Ejecuta los tests del proyecto, tanto tests unitarios como de cobertura.*
 
 ```
 make clean
 ```
 
-*Limpia el directorio del proyecto, eliminando los directorios `__pycache__` y el archivo `.coverage` resultante de los test de covertura.*
+*Limpia el directorio del proyecto, eliminando los directorios `__pycache__` y el archivo `.coverage` resultante de los test de cobertura.*
 
-Para más detalles, consulte el [fichero Makefile](https://github.com/alvarillo89/UGR-CC-Project/blob/master/Makefile) el cual contiene comentarios explicativos. 
+Para más detalles, consulte el [fichero Makefile](https://github.com/alvarillo89/UGR-CC-Project/blob/master/Makefile), el cual contiene comentarios explicativos. 
