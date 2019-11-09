@@ -1,3 +1,4 @@
+# Set lenguage:
 language: python
 
 # Test different python versions:
@@ -8,7 +9,7 @@ python:
   - "3.6.8"
   - "3.7"
   - "3.8"
-  - "3.8-dev"
+  - "3.8-dev"  # Dev version
 
 # Install dependencies:
 install:
