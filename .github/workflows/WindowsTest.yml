@@ -14,10 +14,12 @@ jobs:
         python-version: [3.4, 3.5, 3.6, 3.7]
 
     steps:
-      # Clonar el repositorio para los test:
+      # "Importamos" la action checkout, que nos permite clonar nuestro
+      # repositorio para iniciar los test
       - uses: actions/checkout@v1
       # Configurar la versión de Python correspondiente:
       - name: Set up Python ${{ matrix.python-version }}
+      # Para eso importamos otra action predefinida:
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}

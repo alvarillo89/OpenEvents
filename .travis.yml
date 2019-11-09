@@ -1,7 +1,10 @@
-# Set lenguage:
+# Establecer el lenguaje:
 language: python
 
-# Test different python versions:
+# No es necesario especificar el sistema operativo, puesto
+# que Travis utiliza Linux por defecto.
+
+# Ejecutar los test sobre diferentes versiones de python:
 python:
   - "3.4"
   - "3.5"
@@ -9,17 +12,17 @@ python:
   - "3.6.8"
   - "3.7"
   - "3.8"
-  - "3.8-dev"  # Dev version
+  - "3.8-dev"  # Rama "development" de la 3.8
 
-# Install dependencies:
+# Instalar las dependencias utilizando la herramienta de construcción:
 install:
   - make install
-  - pip install codecov
+  - pip install codecov # Adicionalmente instalamos codecov:
 
-# Run tests:
+# Ejecutar los test con la herramienta de construcción:
 script:
   - make test
 
-# Send coverage report to Codecov:
+# Enviar los resultados del test de cobetura a Codecov:
 after_success:
   - codecov

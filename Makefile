@@ -1,14 +1,16 @@
-# Run "make install" to install all dependences:
+# Instala las dependencias necesarias para el proyecto:
 install:
-	# Install python modules using pip
+	# Instalar los modulos de Python necesarios desde el fichero
+	# requirements.txt
 	pip install -r requirements.txt
 
-# Run "make test" for execute unit and coverage tests over python's modules:
+# Ejecutar los test unitarios y de cobertura
 test:
-	# It uses coverage.py, for generate .coverage info:
+	# Usamos coverage.py para generar el fichero .coverage:
 	coverage run tests/test_events.py
 
-# Run "make clean" for remove pycache folders and .coverage file:
+# Limpiar el directorio de las carpetas y ficheros que se generan
+# tras la ejecución:
 clean:
 	rm -rf src/__pycache__/
 	rm -rf tests/__pycache__/
