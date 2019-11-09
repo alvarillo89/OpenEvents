@@ -12,4 +12,4 @@ Puede consultar cómo se configuró Git y Github para el proyecto en [este enlac
 
 ### Arquitectura e Infraestructura:
 
-La aplicación se implementará siguiendo una arquitectura basada en microservicios. 
+La aplicación se implementará siguiendo una arquitectura basada en microservicios. Puede consultar con mayor detalle la **Arquitectura e Infraestructura** del proyecto en el [siguiente enlace](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/hito1.md).
