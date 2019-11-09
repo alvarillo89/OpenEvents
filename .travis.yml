@@ -3,5 +3,12 @@ language: python
 python:
   - "3.6.8"
 
+install:
+  - pip install coverage
+
 script:
   - make test
+  - coverage run tests/test_events.py
+
+after_success:
+  - codecov
