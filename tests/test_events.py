@@ -134,3 +134,7 @@ class TestEvents(unittest.TestCase):
         new_values = dict(ID="my-custom-id")
         with self.assertRaises(KeyError):
             self.events.modify(self.sample_id, new_values)
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)    
