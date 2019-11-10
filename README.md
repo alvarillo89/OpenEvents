@@ -4,7 +4,7 @@
 
 # Proyecto de la asignatura Cloud Computing (UGR)
 
-Puede consultar cómo se configuró Git y Github para el proyecto en [este enlace.](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/hito0.md)
+Puede consultar cómo se configuró Git y Github para el proyecto en [este enlace.](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/gitconfig.md)
 
 ## OpenEvent
 
@@ -12,7 +12,7 @@ Puede consultar cómo se configuró Git y Github para el proyecto en [este enlac
 
 ### Arquitectura e Infraestructura
 
-La aplicación se implementa siguiendo una arquitectura basada en microservicios. Puede consultar con mayor detalle la *Arquitectura e Infraestructura* del proyecto en el [siguiente enlace](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/hito1.md).
+La aplicación se implementa siguiendo una arquitectura basada en microservicios. Puede consultar con mayor detalle la *Arquitectura e Infraestructura* del proyecto en el [siguiente enlace](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/architecture.md).
 
 ---
 
