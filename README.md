@@ -66,3 +66,7 @@ Para más información consulte el [fichero de configuración de Travis](https:/
 + GitHub Actions: se ha escogido esta segunda alternativa por ser totalmente novedosa y porque es una herramienta propia de GitHub que no requiere de ningún software de terceros. Se encarga de ejecutar los test unitarios y de cobertura desde la versión 3.4 de Python hasta la 3.7 (la 3.8 aún no cuenta con soporte en el sistema). A diferencia del anterior, ejecuta los test sobre la plataforma Windows para comprobar la compatibilidad con dicho sistema operativo. Este workflow se ejecuta cada vez que se realiza un push al repositorio.
 
 Para más información consulte el [fichero de configuración del workflow](https://github.com/alvarillo89/UGR-CC-Project/blob/master/.github/workflows/WindowsTest.yml), el cual incluye comentarios explicativos.
+
+> **Nota:** para los test unitarios se ha utilizado `unittest`, simplemente porque ya está incorporado en la propia ditribución de Python y no requiere
+de la instalación de un módulo externo. Para los test de cobertura se ha utilizado `coverage.py`, que es aquel que recomienda `Codecov` para realizar
+test de cobertura conjuntamente con unittest.
