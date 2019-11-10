@@ -29,7 +29,7 @@ Adicionalmente, deberá disponerse de la herramienta `Makefile`.
 
 ### Herramienta de construcción
 
-`buildtool: Makefile`
+buildtool: Makefile
 
 Este proyecto utiliza `Makefile` como herramienta de construcción. Los objetivos configurados son los siguientes:
 
