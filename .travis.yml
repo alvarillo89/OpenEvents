@@ -6,7 +6,6 @@ language: python
 
 # Ejecutar los test sobre diferentes versiones de python:
 python:
-  - "3.4"
   - "3.5"
   - "3.6"
   - "3.6.8"
