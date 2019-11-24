@@ -20,7 +20,7 @@ La aplicación se implementa siguiendo una arquitectura basada en microservicios
 
 El proyecto está implementado en Python. Para su correcto funcionamiento deberá disponer de alguna de las versiones presentes en el siguiente rango:
 
-+ Mínima versión compatible:  3.4 
++ Mínima versión compatible:  3.5 
 + Máxima versión de compatible:  3.8 (incluída la versión en desarrollo)
 
 > *Nota: estas versiones se han testeado en Linux. En Windows solo se ha comprobado hasta la versión 3.7, se desconoce el comportamiento para la versión 3.8*.
