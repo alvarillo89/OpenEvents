@@ -8,6 +8,7 @@ install:
 test:
 	# Usamos coverage.py para generar el fichero .coverage:
 	coverage run tests/test_events.py
+	coverage run -a tests/test_events_rest.py
 
 # Limpiar el directorio de las carpetas y ficheros que se generan
 # tras la ejecución:

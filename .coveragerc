@@ -1,0 +1,10 @@
+# Fichero de configuración de coverage.py
+
+# Los test de integración utilizan el módulo hug internamente para testear
+# las peticiones. Con esto le indicamos a coverage que no realice tests de cobertura
+# sobre los ficheros de hug:
+
+[run]
+omit =
+    */site-packages/*
+    */distutils/*
