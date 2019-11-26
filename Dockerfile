@@ -12,7 +12,7 @@ ENV PORT ${PORT}
 # Establecer el directorio de trabajo:
 WORKDIR /usr/src/app
 
-# Atualizar pip a instalar las dependencias. No usamos el requirements.txt porque
+# Atualizar pip e instalar las dependencias. No usamos el requirements.txt porque
 # contiene módulos que no son necesarios en el contenedor. Además indicamos que no use la caché.
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir gunicorn \
@@ -21,7 +21,7 @@ RUN pip install --no-cache-dir --upgrade pip \
 # Copiar solamente los dos scripts de python necesarios:
 COPY src/Events.py src/events_rest.py ./
 
-# Indicar el puerto en el docker debe escuchar:
+# Indicar el puerto en el que docker debe escuchar:
 EXPOSE ${PORT}
 
 # Lanzar gunicorn:

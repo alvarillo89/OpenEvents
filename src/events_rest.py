@@ -6,6 +6,7 @@ from Events import Events
 
 
 # Create Events object:
+# By doing this we ensure that the layered architecture is respected:
 event = Events()
 
 
