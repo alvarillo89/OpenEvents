@@ -2,23 +2,27 @@
 # ya contiene instalada la versión de python usada durante el desarrollo:
 FROM python:3.6.8-alpine
 
+# Información sobre el mantenedor:
+LABEL maintainer="Álvaro alvaro89@correo.ugr.es"
+
+# Definir el puerto como variable de entorno:
+ARG PORT
+ENV PORT ${PORT}
+
 # Establecer el directorio de trabajo:
 WORKDIR /usr/src/app
 
-# Copiar e instalar el requirements.txt
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Borrarlo, ya no nos hará falta:
-RUN rm requirements.txt
+# Atualizar pip a instalar las dependencias. No usamos el requirements.txt porque
+# contiene módulos que no son necesarios en el contenedor. Además indicamos que no use la caché.
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir gunicorn \
+    hug    
 
 # Copiar solamente los dos scripts de python necesarios:
-COPY src/Events.py ./
-COPY src/events_rest.py ./
+COPY src/Events.py src/events_rest.py ./
 
 # Indicar el puerto en el docker debe escuchar:
-EXPOSE 80
+EXPOSE ${PORT}
 
 # Lanzar gunicorn:
-# Le indicamos que debe ejecutarse en el puerto 80
-CMD [ "gunicorn", "-w", "4", "-b", "0.0.0.0:80", "events_rest:__hug_wsgi__" ]
+CMD gunicorn -w 4 -b 0.0.0.0:${PORT} events_rest:__hug_wsgi__

@@ -24,6 +24,8 @@ clean:
 # 	"-w 4" especifica el número de workers que atenderán las peticiones. Se arrancarán 4 copias
 # 		exactas de events_rest que atenderán peticiones sobre el mismo puerto. La documentación de
 #		gunicorn recomienda utilizar de 2 a 4 workers. Nosotros hemos escogido el valor más alto.
+#	"-b HOST:PORT" especficia el server socket al que enlazarse. Previamente hay que definir las dos
+#		variables de entorno correspondientes.
 #	"-p gunicorn.pid" crea un fichero temporal bajo el directorio src (llamado gunicorn.pid) que 
 # 		contiene el PID asociado al proceso de gunicorn. Lo almacenamos para poder parar el  
 #		servicio más tarde.
@@ -32,7 +34,7 @@ clean:
 #	(web server gateway interface) __hug_wsgi__, un objeto creado por hug que actúa como interfaz
 #	para conectar directamente con las funciones del módulo.
 start:
-	gunicorn --chdir src -w 4 -p gunicorn.pid --daemon events_rest:__hug_wsgi__
+	gunicorn --chdir src -w 4 -b ${HOST}:${PORT} -p gunicorn.pid --daemon events_rest:__hug_wsgi__
 
 # Parar el servicio web utilizando el fichero con el PID escrito al arrancarlo:
 stop:
