@@ -27,12 +27,12 @@ clean:
 #	"-p gunicorn.pid" crea un fichero temporal bajo el directorio src (llamado gunicorn.pid) que 
 # 		contiene el PID asociado al proceso de gunicorn. Lo almacenamos para poder parar el  
 #		servicio más tarde.
-#	"--daemon" lanza el servidor en segundo plano para que no se congele la terminal.
+#	"--daemon" lanza el servicio en segundo plano para que no se congele la terminal.
 # 	Por último, se especifica el nombre del módulo que se va a ejecutar seguido de la interfaz WSGI 
 #	(web server gateway interface) __hug_wsgi__, un objeto creado por hug que actúa como interfaz
 #	para conectar directamente con las funciones del módulo.
 start:
-	gunicorn --chdir src -w 4 events_rest:__hug_wsgi__ -p gunicorn.pid --daemon
+	gunicorn --chdir src -w 4 -p gunicorn.pid --daemon events_rest:__hug_wsgi__
 
 # Parar el servicio web utilizando el fichero con el PID escrito al arrancarlo:
 stop:
