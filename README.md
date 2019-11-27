@@ -78,10 +78,19 @@ Para más detalles, consulte el [**fichero Makefile**](https://github.com/alvari
 
 ### Integración contínua
 
-El proyecto utiliza dos sistemas de integración contínua diferentes: `Travis-CI` y `GitHub Actions`. Para obtener más información sobre las funciones que desempeñan cada uno de ellos, consulte el siguiente enlace.
+El proyecto utiliza dos sistemas de integración contínua diferentes: `Travis-CI` y `GitHub Actions`. Para obtener más información sobre las funciones que desempeñan cada uno de ellos, consulte el [siguiente enlace](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/ci.md).
 
 ----
+
+### Arquitectura por capas
+
+El microservicio `Event` se ha implementado internamente siguiendo una arquitectura por capas. En una primera capa se encontraría la lógica de negocio del microservicio (sobre la que se ejecutan los tests unitarios) y por encima de ella se encontraría la API REST (sobre la que se ejecutan los tests de integración). Esta última tiene un objeto de la clase `Events`, el cual sirve como interfaz para acceder a los métodos de la primera capa. Para una mayor claridad, aquí se muestra una representación gráfica:
+
+![](docs/imgs/resources3/capas.png)
+
 
 ### Contenedor Docker
 
 Contenedor: https://github.com/alvarillo89/UGR-CC-Project/packages/63964?version=latest
+
+
