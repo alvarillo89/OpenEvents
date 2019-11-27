@@ -45,8 +45,12 @@ make install
 make test
 ```
 
-*Ejecuta los tests del proyecto, tanto tests unitarios como de cobertura.* Para los test unitarios se ha utilizado `unittest`, simplemente porque ya está incorporado en la propia ditribución de Python y no requiere
-de la instalación de un módulo externo. Para los test de cobertura se ha utilizado `coverage.py`. Dicho módulo generará el archivo `.coverage` que contiene el *report* de los test de cobertura. La herramienta que desee utilizar para la visualización del reporte queda a su elección. En los tests de integración contínua se ha utilizado `Codecov`.
+Ejecuta los tests del proyecto:
++ Tests unitarios sobre el módulo `Events`.
++ Tests de integración sobre la `API REST`.
++ Tests de cobertura sobre los dos módulos anteriores.   
+
+Para los test unitarios y de integración se ha utilizado `unittest`, simplemente porque ya está incorporado en la propia ditribución de Python y no requiere de la instalación de un módulo externo. Para los test de cobertura se ha utilizado `coverage.py`. Dicho módulo generará el archivo `.coverage` que contiene el *report* de los test de cobertura. La herramienta que desee utilizar para la visualización del reporte queda a su elección. En los tests de integración contínua se ha utilizado `Codecov`.
 
 ```
 make clean
@@ -54,18 +58,30 @@ make clean
 
 *Limpia el directorio del proyecto, eliminando los directorios `__pycache__` y el archivo `.coverage` resultante de los test de cobertura.*
 
+```
+make start
+```
+
+*Arranca el servicio web del microservicio `Events` utilizando [Gunicorn](https://gunicorn.org/).* Previamente a la ejecución de esta orden, deberá configurar dos variables de entorno: `HOST` conteniendo la dirección y `PORT` conteniendo el puerto. Ambas definirán el server socket al que gunicorn debe enlazarse.
+
+> Para más información sobre los parámetros con los que gunicorn es arrancado consulte el [**fichero Makefile**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/Makefile).
+
+```
+make stop
+```
+
+*Finaliza la ejecución del servicio web del microservicio `Events` y todos sus workers.*
+
 Para más detalles, consulte el [**fichero Makefile**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/Makefile), el cual contiene comentarios explicativos.
 
 ---
 
 ### Integración contínua
 
-El proyecto utiliza dos sistemas de integración contínua diferentes: `Travis-CI` y `GitHub Actions`. A continuación se describen las funciones que desempeñan cada uno de ellos:
+El proyecto utiliza dos sistemas de integración contínua diferentes: `Travis-CI` y `GitHub Actions`. Para obtener más información sobre las funciones que desempeñan cada uno de ellos, consulte el siguiente enlace.
 
-+ Travis-CI: se encarga de ejecutar los tests unitarios y de cobertura para la clase `Events`. Además, comprueba que dichos tests se ejecutan correctamente para las versiones 3.4, 3.5, 3.6, 3.6.8 (la utilizada localmente para el desarrollo), 3.7, 3.8 (estable) y 3.8 (desarrollo) de Python, sobre el sistema operativo Linux. Por último, envía los resultados de los test de cobertura a la plataforma Codecov.
+----
 
-Para más información consulte el [**fichero de configuración de Travis**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/.travis.yml), el cual incluye comentarios explicativos.
+### Contenedor Docker
 
-+ GitHub Actions: se ha escogido esta segunda alternativa por ser totalmente novedosa y porque es una herramienta propia de GitHub que no requiere de ningún software de terceros. Se encarga de ejecutar los test unitarios y de cobertura desde la versión 3.4 de Python hasta la 3.7 (la 3.8 aún no cuenta con soporte en el sistema). A diferencia del anterior, ejecuta los test sobre la plataforma Windows para comprobar la compatibilidad con dicho sistema operativo. Este workflow se ejecuta cada vez que se realiza un push al repositorio.
-
-Para más información consulte el [**fichero de configuración del workflow**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/.github/workflows/WindowsTest.yml), el cual incluye comentarios explicativos.
+Contenedor: https://github.com/alvarillo89/UGR-CC-Project/packages/63964?version=latest
