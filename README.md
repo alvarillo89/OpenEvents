@@ -88,9 +88,33 @@ El microservicio `Event` se ha implementado internamente siguiendo una arquitect
 
 ![](docs/imgs/resources3/capas.png)
 
+----
 
 ### Contenedor Docker
 
 Contenedor: https://github.com/alvarillo89/UGR-CC-Project/packages/63964?version=latest
 
+En el enlace superior puede acceder a la imagen del contenedor que contiene el microservicio `Events` junto con todas las dependencias que necesita para ejecutarse: `hug`, `gunicorn` y el intérprete de `Python` 3.6.8.
 
+Como sistema operativo utiliza `Alpine`, famoso por ser extremadamente ligero. Cabe decir que no es esta la única imagen base con la que se ha probado, sino que se han comprobado varias imágenes diferentes para posteriormente seleccionar aquella con el menor tamaño (puesto que tampoco tenemos ningún otro criterio de selección relevante):
+
+```None
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+event               latest              41ae7f73ea89        37 hours ago        94.4MB
+fedora-python       latest              e2163f7aecf1        38 hours ago        393MB
+minideb-python      latest              a5e6dbdc1222        38 hours ago        100MB
+python              3.6.8-alpine        f3e18b628c1b        5 months ago        79.3MB
+python              3.6.8               48c06762acf0        5 months ago        924MB
+```
+
+El claro ganador es `Alpine` (aunque `minideb`, una distribución simple de `Debian`, es un fuerte competidor). También llama la atención que la imagen con aparentemente solo el intérprete de `Python` ocupa casi más del doble que la imagen de `Fedora`.
+
+Por último, si desea construir la imagen a partir del archivo `Dockerfile`, ejecute el siguiente comando:
+
+```None
+docker build -t <MY TAG> --build-arg PORT=<MY PORT> .
+``` 
+
+Donde `<MY PORT>` es el puerto en el que escucharán los workers de gunicorn.
+
+Para conocer más detalles, consulte el fichero [**Dockerfile**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/Dockerfile), el cual contiene comentarios explicativos.
