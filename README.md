@@ -137,5 +137,5 @@ https://openevents.herokuapp.com
 
 Si accedemos a https://openevents.herokuapp.com/event/title/mievento podremos ver la respuesta `"Event not found"`, puesto que no existe un evento con el nombre `"mievento"`. Esto nos sirve para comprobar que funciona.
 
-> Nota: se ha escogido heroku como PaaS por tres motivos: es gratis, es sencillo de utilizar y tenía curiosidad por trabajar con él.
+> Nota: se ha escogido heroku como PaaS por cuatro motivos: es gratis, es sencillo de utilizar, su documentación es excelente y tenía curiosidad por trabajar con él.
 
