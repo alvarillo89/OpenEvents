@@ -6,7 +6,6 @@ FROM python:3.6.8-alpine
 LABEL maintainer="Álvaro alvaro89@correo.ugr.es"
 
 # Definir el puerto como variable de entorno:
-ARG PORT
 ENV PORT ${PORT}
 
 # Establecer el directorio de trabajo:
@@ -21,8 +20,13 @@ RUN pip install --no-cache-dir --upgrade pip \
 # Copiar solamente los dos scripts de python necesarios:
 COPY src/Events.py src/events_rest.py ./
 
-# Indicar el puerto en el que docker debe escuchar:
+# Indicar el puerto en el que docker debe escuchar: (a título informativo):
 EXPOSE ${PORT}
+
+# Creamos un usuario para evitar que el servidor se ejecute con permisos de
+# superusuario, por temas de seguridad:
+RUN adduser -D myuser
+USER myuser
 
 # Lanzar gunicorn:
 CMD gunicorn -w 4 -b 0.0.0.0:${PORT} events_rest:__hug_wsgi__
