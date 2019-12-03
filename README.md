@@ -37,13 +37,13 @@ buildtool: Makefile
 Este proyecto utiliza `Makefile` como herramienta de construcción. Los objetivos configurados son los siguientes:
 
 ```
-make install
+$ make install
 ```
 
 *Instala todos los requisitos (módulos de Python) necesarios para la aplicación. Alternativamente a esto puede ejecutar `pip install -r requirements.txt`*. Si desea conocer qué módulos se instalan con esta órden, consulte el fichero [**requirements.txt**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/requirements.txt).
 
 ```
-make test
+$ make test
 ```
 
 Ejecuta los tests del proyecto:
@@ -54,13 +54,13 @@ Ejecuta los tests del proyecto:
 Para los test unitarios y de integración se ha utilizado `unittest`, simplemente porque ya está incorporado en la propia ditribución de Python y no requiere de la instalación de un módulo externo. Para los test de cobertura se ha utilizado `coverage.py`. Dicho módulo generará el archivo `.coverage` que contiene el *report* de los test de cobertura. La herramienta que desee utilizar para la visualización del reporte queda a su elección. En los tests de integración contínua se ha utilizado `Codecov`.
 
 ```
-make clean
+$ make clean
 ```
 
 *Limpia el directorio del proyecto, eliminando los directorios `__pycache__` y el archivo `.coverage` resultante de los test de cobertura.*
 
 ```
-make start
+$ make start
 ```
 
 *Arranca el servicio web del microservicio `Events` utilizando [Gunicorn](https://gunicorn.org/).* Previamente a la ejecución de esta orden, deberá configurar dos variables de entorno: `HOST` conteniendo la dirección y `PORT` conteniendo el puerto. Ambas definirán el server socket al que gunicorn debe enlazarse.
@@ -68,7 +68,7 @@ make start
 > Para más información sobre los parámetros con los que gunicorn es arrancado consulte el [**fichero Makefile**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/Makefile).
 
 ```
-make stop
+$ make stop
 ```
 
 *Finaliza la ejecución del servicio web del microservicio `Events` y todos sus workers.*
@@ -93,32 +93,15 @@ El microservicio `Event` se ha implementado internamente siguiendo una arquitect
 
 ### Contenedor Docker
 
-Contenedor: https://github.com/alvarillo89/UGR-CC-Project/packages/63964?version=latest
+Contenedor: https://hub.docker.com/r/alvarillo89/events
 
-En el enlace superior puede acceder a la imagen del contenedor que contiene el microservicio `Events` junto con todas las dependencias que necesita para ejecutarse: `hug`, `gunicorn` y el intérprete de `Python` 3.6.8.
+En el enlace superior puede acceder a la imagen del contenedor publicada en Docker Hub que contiene el microservicio `Events` junto con todas las dependencias que necesita para ejecutarse: `hug`, `gunicorn` y el intérprete de `python3`. Dicho repositorio de Docker Hub está enlazado con este repositorio de Github. 
 
-Como sistema operativo utiliza `Alpine`, famoso por ser extremadamente ligero. Cabe decir que no es esta la única imagen base con la que se ha probado, sino que se han comprobado varias imágenes diferentes para posteriormente seleccionar aquella con el menor tamaño (puesto que tampoco tenemos ningún otro criterio de selección relevante):
+Como sistema operativo utiliza `minideb`. Cabe decir que no es esta la única imagen base con la que se ha probado, sino que se han comprobado varias imágenes diferentes. En el [**siguiente enlace**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/dockercomparison.md) se describe el proceso seguido para llegar a esta elección.
 
-```None
-REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-event               latest              41ae7f73ea89        37 hours ago        94.4MB
-fedora-python       latest              e2163f7aecf1        38 hours ago        393MB
-minideb-python      latest              a5e6dbdc1222        38 hours ago        100MB
-python              3.6.8-alpine        f3e18b628c1b        5 months ago        79.3MB
-python              3.6.8               48c06762acf0        5 months ago        924MB
-```
+La imagen se ha subido adicionalmente a [**Github Packages Registry**](https://github.com/alvarillo89/UGR-CC-Project/packages/63964) y se ha automatizado su construcción y subida mediante el [**siguiente workflow**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/.github/workflows/publishDocker.yml).
 
-El claro ganador es `Alpine` (aunque `minideb`, una distribución simple de `Debian`, es un fuerte competidor). También llama la atención que la imagen con aparentemente solo el intérprete de `Python` ocupa casi más del doble que la imagen de `Fedora`.
-
-Por último, si desea construir la imagen a partir del archivo `Dockerfile`, ejecute el siguiente comando:
-
-```None
-docker build -t <MY TAG> --build-arg PORT=<MY PORT> .
-``` 
-
-Donde `<MY PORT>` es el puerto en el que escucharán los workers de gunicorn.
-
-Para conocer más detalles, consulte el fichero [**Dockerfile**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/Dockerfile), el cual contiene comentarios explicativos.
+Por último, para conocer más detalles sobre la imagen, consulte el fichero [**Dockerfile**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/Dockerfile), el cual contiene comentarios explicativos.
 
 ---
 
