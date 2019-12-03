@@ -1,0 +1,23 @@
+# Para publicar la imagen en docker hacemos uso de la acción definida por JJ:
+# https://github.com/JJ/gpr-docker-publish
+name: Publish Docker on Github Packages
+
+# Lanzar este Workflow cuando se haga un push al repositorio:
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Clonar el repositiorio
+      uses: actions/checkout@v1
+    
+    - name: Publicar la imagen usando la action
+      uses: JJ/gpr-docker-publish@master
+      with:
+        IMAGE_NAME: 'events'
+        TAG: 'latest'
+        DOCKERFILE_PATH: 'Dockerfile'
+        BUILD_CONTEXT: '.'
+      env:
+        GITHUB_TOKEN: ${{ secrets.dockerPushPackages }}
