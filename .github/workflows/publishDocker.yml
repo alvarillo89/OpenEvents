@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Clonar el repositiorio
-      uses: actions/checkout@v1
+      uses: actions/checkout@master
     
     - name: Publicar la imagen usando la action
       uses: JJ/gpr-docker-publish@master
