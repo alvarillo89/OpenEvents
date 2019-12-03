@@ -20,4 +20,4 @@ jobs:
         DOCKERFILE_PATH: 'Dockerfile'
         BUILD_CONTEXT: '.'
       env:
-        GITHUB_TOKEN: ${{ secrets.dockerPushPackages }}
+        GITHUB_TOKEN: ${{ secrets.GPR_PUSH }}
