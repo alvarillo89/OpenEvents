@@ -5,7 +5,7 @@ FROM bitnami/minideb:latest
 LABEL maintainer="Álvaro alvaro89@correo.ugr.es"
 
 # Definir el puerto como variable de entorno:
-ENV PORT ${PORT}
+#ENV PORT ${PORT}
 
 # Establecer el directorio de trabajo:
 WORKDIR /usr/src/app
@@ -23,7 +23,7 @@ COPY src/Events.py src/events_rest.py ./
 
 # Esta orden solo tiene carácter informativo. Indica a futuros usuarios de este
 # dockerfile el puerto en el que escucha el microservicio.
-EXPOSE ${PORT}
+#EXPOSE ${PORT}
 
 # Creamos un usuario para evitar que el servidor se ejecute con permisos de
 # superusuario, por temas de seguridad:
@@ -32,4 +32,4 @@ RUN useradd -m nonroot
 USER nonroot
 
 # Lanzar gunicorn:
-CMD gunicorn -w 4 -b 0.0.0.0:${PORT} events_rest:__hug_wsgi__
+CMD gunicorn -w 4 -b 0.0.0.0:80 events_rest:__hug_wsgi__
