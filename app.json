@@ -1,0 +1,7 @@
+{
+    "name": "Open Events",
+    "description": "Application that allows organizers to publish events and sell tickets",
+    "repository": "https://github.com/alvarillo89/UGR-CC-Project",
+    "keywords": ["python", "hug", "microservice"],
+    "stack": "container"
+}

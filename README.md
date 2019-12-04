@@ -87,7 +87,7 @@ El proyecto utiliza dos sistemas de integración contínua diferentes: `Travis-C
 
 El microservicio `Event` se ha implementado internamente siguiendo una arquitectura por capas. En una primera capa se encontraría la lógica de negocio del microservicio (sobre la que se ejecutan los tests unitarios) y por encima de ella se encontraría la API REST (sobre la que se ejecutan los tests de integración). Esta última tiene un objeto de la clase `Events`, el cual sirve como interfaz para acceder a los métodos de la primera capa. Para una mayor claridad, aquí se muestra una representación gráfica:
 
-![Capas](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/imgs/resources3/capas.png)
+![](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/imgs/resources3/capas.png)
 
 ----
 
@@ -106,6 +106,8 @@ Por último, para conocer más detalles sobre la imagen, consulte el fichero [**
 ---
 
 ### Despliege en Heroku
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 La aplicación desplegada está disponible bajo la siguiente dirección:
 

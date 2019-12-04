@@ -21,8 +21,24 @@ El siguiente paso es, desde la página web de Heroku, conectar la aplicación al
 
 ![](imgs/resources3/herokuTestCI.png)
 
-3. Y listo, con esto el despliegue automático en Heroku estaría configurado:
+3. Con esto el despliegue automático en Heroku estaría configurado:
 
 ![](imgs/resources3/herokuAutomatedDeploy.png)
 
+Por último, y adicionalmente, añadiremos al `README.md` el botón de Heroku que permite reelizar el despliegue fácilmente. Para ello es necesario añadir un fichero `app.json` que describe nuestra aplicación:
 
+```json
+{
+    "name": "Open Events",
+    "description": "Application that allows organizers to publish events and sell tickets",
+    "repository": "https://github.com/alvarillo89/UGR-CC-Project",
+    "keywords": ["python", "hug", "microservice"],
+    "stack": "container"
+}
+```
+
+Quizás el campo más relevante es `stack` que le indica a Heroku que se utilizará Docker.
+
+*Referencias para la creación del botón:*
++ https://devcenter.heroku.com/articles/heroku-button
++ https://devcenter.heroku.com/articles/app-json-schema
