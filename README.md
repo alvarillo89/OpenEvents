@@ -87,7 +87,7 @@ El proyecto utiliza dos sistemas de integración contínua diferentes: `Travis-C
 
 El microservicio `Event` se ha implementado internamente siguiendo una arquitectura por capas. En una primera capa se encontraría la lógica de negocio del microservicio (sobre la que se ejecutan los tests unitarios) y por encima de ella se encontraría la API REST (sobre la que se ejecutan los tests de integración). Esta última tiene un objeto de la clase `Events`, el cual sirve como interfaz para acceder a los métodos de la primera capa. Para una mayor claridad, aquí se muestra una representación gráfica:
 
-![](docs/imgs/resources3/capas.png)
+![Capas](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/imgs/resources3/capas.png)
 
 ----
 
@@ -95,9 +95,9 @@ El microservicio `Event` se ha implementado internamente siguiendo una arquitect
 
 Contenedor: https://hub.docker.com/r/alvarillo89/events
 
-En el enlace superior puede acceder a la imagen del contenedor publicada en Docker Hub que contiene el microservicio `Events` junto con todas las dependencias que necesita para ejecutarse: `hug`, `gunicorn` y el intérprete de `python3`. Dicho repositorio de Docker Hub está enlazado con este repositorio de Github. 
+En el enlace superior puede acceder a la imagen del contenedor publicada en Docker Hub, que contiene el microservicio `Events` junto con todas las dependencias que necesita para ejecutarse: `hug`, `gunicorn` y el intérprete de `python3`. Dicho repositorio de Docker Hub está enlazado con este repositorio de Github, de esta forma, cada vez que se haga un cambio en el repositorio, se reconstruirá la imagen y se actualizará automáticamente en Docker Hub (la [siguiente imagen](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/imgs/resources3/DockerHubGithub.png) muestra la conexión).
 
-Como sistema operativo utiliza `minideb`. Cabe decir que no es esta la única imagen base con la que se ha probado, sino que se han comprobado varias imágenes diferentes. En el [**siguiente enlace**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/dockercomparison.md) se describe el proceso seguido para llegar a esta elección.
+Como sistema operativo utiliza `minideb`. Cabe decir que no es esta la única imagen base con la que se ha probado, sino que se han comparado las prestaciones de varias imágenes diferentes. En el [**siguiente enlace**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/dockercomparison.md) se describe el proceso seguido para llegar a esta elección.
 
 La imagen se ha subido adicionalmente a [**Github Packages Registry**](https://github.com/alvarillo89/UGR-CC-Project/packages/63964) y se ha automatizado su construcción y subida mediante el [**siguiente workflow**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/.github/workflows/publishDocker.yml).
 
@@ -107,18 +107,11 @@ Por último, para conocer más detalles sobre la imagen, consulte el fichero [**
 
 ### Despliege en Heroku
 
-Una vez instalada la herramienta de comandos de interfaz de heroku (`Heroku CLI`) y tras habernos logueado en nuestra cuenta, el proceso de despliegue en heroku es sencillo:
-
-1. Crear una aplicación de heroku tecleando `heroku create openevents`. Esto añadirá a nuestro repositorio de Git un nuevo `remote` llamado heroku. A su vez, creará la aplicación bajo el nombre `openevents`.
-2. Crear el fichero `heroku.yml`, un manifest que contiene la definición de nuestra aplicación y commitearlo al repositorio. Para más información sobre su contenido, consulte el propio [**fichero**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/heroku.yml), el cual contiene comentarios explicativos.
-3. Establecer el stack *(la imagen del SO)* de la aplicación a `container` con el siguiente comando: `heroku stack:set container`. Con esto indicamos que se utilizará docker.
-4. Pushear la imagen a heroku con el comando `git push heroku master`.
-
-Y listo. Con esto, la aplicación estará disponible bajo la siguiente dirección:
+La aplicación desplegada está disponible bajo la siguiente dirección:
 
 https://openevents.herokuapp.com
 
 Si accedemos a https://openevents.herokuapp.com/event/title/mievento podremos ver la respuesta `"Event not found"`, puesto que no existe un evento con el nombre `"mievento"`. Esto nos sirve para comprobar que funciona.
 
-> Nota: se ha escogido heroku como PaaS por cuatro motivos: es gratis, es sencillo de utilizar, su documentación es excelente y tenía curiosidad por trabajar con él.
+Consulte el [**siguiente enlace**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/heroku.md) para conocer detalles sobre el proceso seguido para el despliegue.
 
