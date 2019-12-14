@@ -7,9 +7,9 @@ jobs:
   build:
     # Los test se realizarán en windows:
     runs-on: windows-latest
-    # Se probará con 4 versiones de Python en paralelo:
+    # Se probará con 4 versiones de Python sin paralelismo para evitar problemas con la BD:
     strategy:
-      max-parallel: 4
+      max-parallel: 1
       matrix:
         python-version: [3.5, 3.6, 3.7]
 
