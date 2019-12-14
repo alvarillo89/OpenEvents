@@ -4,6 +4,7 @@ import hug
 import unittest
 import datetime
 from falcon import HTTP_404, HTTP_200, HTTP_201, HTTP_409
+from faker import Faker     # For generate random events
 
 import sys
 sys.path.append("src")
@@ -16,7 +17,9 @@ class TestEventsRest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """ Add a sample event to events object: """
-        cls.sample_title = "An event"
+        # Create generator object:
+        cls.faker = Faker()
+        cls.sample_title = cls.faker.sentence()
         cls.sample_id = events_rest.event.create(
             title=cls.sample_title, organizer="An organizer",
             date=datetime.datetime(2020, 5, 17, 18, 30), address="In some place",
@@ -49,7 +52,7 @@ class TestEventsRest(unittest.TestCase):
     def test_post_ok(self):
         """ Test the post request posting a new event """
         new_event = dict(
-            title="Another event",
+            title=self.faker.sentence(),
             organizer="Another organizer",
             date=datetime.datetime(2020, 6, 17, 17, 30),
             address="In another place",
@@ -90,7 +93,7 @@ class TestEventsRest(unittest.TestCase):
     def test_delete_ok(self):
         """ Test the delete request of an existing event """
         # Add a event for remove it later:
-        id = events_rest.event.create(title="Just for this test", organizer="Some guys",
+        id = events_rest.event.create(title=self.faker.sentence(), organizer="Some guys",
             date=datetime.datetime(2020, 6, 17, 17, 30), address="Some place", description="...",
             prize=10.0, tickets_availables=100
         )

@@ -3,6 +3,7 @@
 import unittest
 import os
 import datetime
+from faker import Faker     # For generate random events
 
 import sys
 sys.path.append("src")
@@ -13,13 +14,15 @@ from mongo_data_manager import MongoDataManager
 class TestEvents(unittest.TestCase):
 
     def setUp(self):
+        # Create the generator object:
+        self.faker = Faker()
         # Create a Events class object:
         self.MD = MongoDataManager(url=os.environ['EVENTS_DB_URL'], database='EventsDB', 
             collection='events')
         self.events = Events.Events(data_manager=self.MD)
         # Create a sample event:
         self.sample_event = dict(
-            title="An event",
+            title=self.faker.sentence(),
             organizer="An organizer",
             date=datetime.datetime(2020, 5, 17, 18, 30),
             address="In some place",
@@ -39,9 +42,10 @@ class TestEvents(unittest.TestCase):
 
     def test_create_ok(self):
         """ Test if a new event is inserted on list """
+        name = self.faker.sentence()
         event = dict(
             _id=None,
-            title="Another event",
+            title=name,
             organizer="Another organizer",
             date=datetime.datetime(2020, 6, 17, 17, 30),
             address="In another place",
@@ -50,14 +54,14 @@ class TestEvents(unittest.TestCase):
             tickets_availables=100
         )
 
-        id = self.events.create("Another event", "Another organizer", 
+        id = self.events.create(name, "Another organizer", 
             datetime.datetime(2020, 6, 17, 17, 30), "In another place", 
             "Just another example event", 5.0, 100)
 
         event['_id'] = id
 
         # Check if new event exists:
-        self.assertEqual(self.MD.get_title("Another event"), event)
+        self.assertEqual(self.MD.get_title(name), event)
 
         # Remove recent added event:
         self.MD.delete(id)
