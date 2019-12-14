@@ -1,17 +1,14 @@
 # -*- coding: utf-8 -*-
 
-import uuid
-
 class Events:
-    def __init__(self):
-        self.event_list = []
+    # Dependency injection:
+    def __init__(self, data_manager):
+        self.data_manager = data_manager
 
 
     def create(self, title, organizer, date, address, description, prize, tickets_availables):
-        if self.search_by_title(title) == []:
-            ID = uuid.uuid1().hex
+        if self.search_by_title(title) == None:
             item = dict(
-                ID=ID,
                 title=title,
                 organizer=organizer,
                 date=date,
@@ -20,37 +17,39 @@ class Events:
                 prize=prize,
                 tickets_availables=tickets_availables
             )
-            self.event_list.append(item)
-            return ID
+            _id = self.data_manager.insert(item)
+            return _id
         else:
             raise ValueError("An event with that title already exists")
     
 
     def search_by_title(self, title):
-        return [event for event in self.event_list if event["title"]==title]
+        return self.data_manager.get_title(title)
     
 
     def search_by_id(self, id):
-        res = [event for event in self.event_list if event["ID"]==id]
+        res = self.data_manager.get_id(id)
 
-        if res == []:
+        if res == None:
             raise LookupError("There is no event with that ID")
 
         return res
 
 
     def remove(self, id):
-        event = self.search_by_id(id)
-        self.event_list.remove(event[0])
+        # First test if an event with that id exists:
+        self.search_by_id(id)
+        self.data_manager.delete(id)
     
 
     def modify(self, id, new_values):
         event = self.search_by_id(id)
-        index = self.event_list.index(event[0])
 
+        # Check keys correction:
         for key in new_values.keys():
-            if key not in event[0].keys():
+            if key not in event.keys():
                 raise KeyError("An event does not have a field called " + str(key))
-            if key == "ID":
+            if key == "_id":
                 raise KeyError("ID field cannot been modified")
-            self.event_list[index][key] = new_values[key]
+        
+        self.data_manager.update(id, new_values)

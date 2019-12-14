@@ -1,23 +1,24 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-import uuid
+import os
 import datetime
 
 import sys
 sys.path.append("src")
 
 import Events
+from mongo_data_manager import MongoDataManager
 
 class TestEvents(unittest.TestCase):
 
     def setUp(self):
         # Create a Events class object:
-        self.events = Events.Events()
+        self.MD = MongoDataManager(url=os.environ['EVENTS_DB_URL'], database='EventsDB', 
+            collection='events')
+        self.events = Events.Events(data_manager=self.MD)
         # Create a sample event:
-        self.sample_id = uuid.uuid1().hex
         self.sample_event = dict(
-            ID=self.sample_id,
             title="An event",
             organizer="An organizer",
             date=datetime.datetime(2020, 5, 17, 18, 30),
@@ -26,14 +27,20 @@ class TestEvents(unittest.TestCase):
             prize=3.0,
             tickets_availables=10
         )
-        # Add sample event to list:
-        self.events.event_list.append(self.sample_event.copy())
+        # Add sample event to database:
+        self.sample_id = self.MD.insert(self.sample_event)
+        self.sample_event['_id'] = self.sample_id
+
+    
+    def tearDown(self):
+        # Borrar el evento añadido:
+        self.MD.delete(self.sample_id)
 
 
     def test_create_ok(self):
         """ Test if a new event is inserted on list """
         event = dict(
-            ID=None,
+            _id=None,
             title="Another event",
             organizer="Another organizer",
             date=datetime.datetime(2020, 6, 17, 17, 30),
@@ -47,10 +54,13 @@ class TestEvents(unittest.TestCase):
             datetime.datetime(2020, 6, 17, 17, 30), "In another place", 
             "Just another example event", 5.0, 100)
 
-        event['ID'] = id
+        event['_id'] = id
 
         # Check if new event exists:
-        self.assertTrue(event in self.events.event_list)
+        self.assertEqual(self.MD.get_title("Another event"), event)
+
+        # Remove recent added event:
+        self.MD.delete(id)
 
 
     def test_create_fail(self):
@@ -68,27 +78,26 @@ class TestEvents(unittest.TestCase):
         """ Test the search for existing and non-existing events by name """
         res_found = self.events.search_by_title(self.sample_event["title"])
         res_not_found = self.events.search_by_title("Non-existing event")
-        self.assertEqual(res_found, [self.sample_event])
-        self.assertEqual(res_not_found, [])
+        self.assertEqual(res_found, self.sample_event)
+        self.assertEqual(res_not_found, None)
 
 
     def test_search_by_id(self):
         """ Test the search for existing and non-existing events by ID """
         res = self.events.search_by_id(self.sample_id)
-        self.assertEqual(res, [self.sample_event])
+        self.assertEqual(res, self.sample_event)
 
         with self.assertRaises(LookupError):
-            res = self.events.search_by_id("wrong-id")
+            res = self.events.search_by_id("000000000000000000000000")
 
 
     def test_remove(self):
         """ Test the remove of existing and non-existing events """
-        self.assertTrue(self.sample_event in self.events.event_list)
         self.events.remove(self.sample_id)
-        self.assertFalse(self.sample_event in self.events.event_list)
+        self.assertEqual(self.MD.get_title(self.sample_event), None)
 
         with self.assertRaises(LookupError):
-            self.events.remove("wrong-id")
+            self.events.remove("000000000000000000000000")
 
     
     def test_modify_ok(self):
@@ -100,11 +109,10 @@ class TestEvents(unittest.TestCase):
             prize=2.0
         )
 
-        self.assertTrue(self.sample_event in self.events.event_list)
         self.events.modify(self.sample_id, new_values)
 
         new_event = dict(
-            ID=self.sample_id,
+            _id=self.sample_id,
             title="I'm changing the name!",
             organizer="An organizer",
             date=datetime.datetime(2020, 2, 12, 7, 15),
@@ -114,8 +122,9 @@ class TestEvents(unittest.TestCase):
             tickets_availables=10
         )
 
-        self.assertFalse(self.sample_event in self.events.event_list)
-        self.assertTrue(new_event in self.events.event_list)
+        event = self.MD.get_id(self.sample_id)
+        self.assertNotEqual(event, self.sample_event)
+        self.assertEqual(event, new_event)
     
 
     def test_modify_fail(self):
@@ -123,7 +132,7 @@ class TestEvents(unittest.TestCase):
         # Non-existing id:
         new_values = dict(title="I'm changing the name!")
         with self.assertRaises(LookupError):
-            self.events.modify("wrong-id", new_values)
+            self.events.modify("000000000000000000000000", new_values)
 
         # Non-existing argument:
         new_values = dict(invalid_key="invalid")
@@ -131,7 +140,7 @@ class TestEvents(unittest.TestCase):
             self.events.modify(self.sample_id, new_values)
 
         # Trying to modify event's ID: 
-        new_values = dict(ID="my-custom-id")
+        new_values = dict(_id="my-custom-id")
         with self.assertRaises(KeyError):
             self.events.modify(self.sample_id, new_values)
 

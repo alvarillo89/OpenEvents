@@ -32,3 +32,5 @@ jobs:
       - name: Test
         run: |
           make test
+        env:
+          EVENTS_DB_URL: ${{ secrets.EVENTS_DB_URL }}

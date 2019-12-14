@@ -23,14 +23,20 @@ class TestEventsRest(unittest.TestCase):
             description="Just a sample event", prize=8.0, tickets_availables=10
         )
 
+
+    @classmethod
+    def tearDownClass(cls):
+        """ Remove sample event """
+        events_rest.event.remove(cls.sample_id)
     
+
     def test_get_ok(self):
         """ Test the get request of an existing event by title """
         request = hug.test.get(events_rest, "/event/title/" + self.sample_title)
         # Convert getted string date to datetime object:
         request.data["date"] = datetime.datetime.strptime(request.data["date"], '%Y-%m-%dT%H:%M:%S')
         self.assertEqual(request.status, HTTP_200)
-        self.assertEqual(request.data, events_rest.event.search_by_title(self.sample_title)[0])
+        self.assertEqual(request.data, events_rest.event.search_by_title(self.sample_title))
 
 
     def test_get_not_found(self):
@@ -58,7 +64,9 @@ class TestEventsRest(unittest.TestCase):
         # Get the ID:
         id = request.data[16:]
         # Check if an event with that title exists
-        self.assertTrue(len(events_rest.event.search_by_id(id)) != 0)
+        self.assertNotEqual(events_rest.event.search_by_id(id), None)
+        # Remove it after test:
+        events_rest.event.remove(id)
 
 
     def test_post_conflict(self):
@@ -98,7 +106,7 @@ class TestEventsRest(unittest.TestCase):
 
     def test_delete_not_found(self):
         """ Test the delete request of a non-existing event """
-        response = hug.test.delete(events_rest, "/event/id/thiseventdoesntexists")
+        response = hug.test.delete(events_rest, "/event/id/000000000000000000000000")
         self.assertEqual(response.status, HTTP_404)
         self.assertEqual(response.data, "There is no event with that ID")
 
@@ -110,7 +118,7 @@ class TestEventsRest(unittest.TestCase):
         self.assertEqual(response.status, HTTP_200)
         self.assertEqual(response.data, "Event updated")
         # Ensure that event had been modified:
-        event = events_rest.event.search_by_title(self.sample_title)[0]
+        event = events_rest.event.search_by_title(self.sample_title)
         self.assertEqual(event['description'], new_data['description'])
         self.assertEqual(event['prize'], new_data['prize'])
 
@@ -119,7 +127,7 @@ class TestEventsRest(unittest.TestCase):
         """ Test the modification of a non-existing event and the modification of a bad key """
         new_data = dict(badKey="This is bad")
         # Non existing event:
-        response = hug.test.put(events_rest, "event/id/nonexistingid", new_data)
+        response = hug.test.put(events_rest, "event/id/000000000000000000000000", new_data)
         self.assertEqual(response.status, HTTP_404)
         self.assertEqual(response.data, "There is no event with that ID")
         # Bad key:
