@@ -2,6 +2,7 @@
 
 import os
 import hug
+import datetime
 from falcon import HTTP_404, HTTP_200, HTTP_201, HTTP_409
 from Events import Events
 from mongo_data_manager import MongoDataManager
@@ -9,7 +10,7 @@ from mongo_data_manager import MongoDataManager
 
 # Create Events object:
 # By doing this we ensure that the layered architecture is respected:
-MDM = MongoDataManager(url=os.environ['EVENTS_DB_URL'], database='EventsDB', collection='events')
+MDM = MongoDataManager(uri=os.environ['DB_URI'], database='EventsDB', collection='events')
 event = Events(data_manager=MDM)
 
 
@@ -27,7 +28,8 @@ def getEvent(title, response):
 @hug.post("/event")
 def addEvent(body, response):
     try:
-        id = event.create(body['title'], body['organizer'], body['date'], body['address'],
+        date = datetime.datetime.strptime(body["date"], '%Y-%m-%dT%H:%M:%S')
+        id = event.create(body['title'], body['organizer'], date, body['address'],
             body['description'], body['prize'], body['tickets_availables'])
         response.status = HTTP_201
         return "Event Added. ID={}".format(id)

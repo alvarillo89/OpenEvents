@@ -24,11 +24,11 @@ class Events:
     
 
     def search_by_title(self, title):
-        return self.data_manager.get_title(title)
+        return self.data_manager.get(key='title', value=title)
     
 
     def search_by_id(self, id):
-        res = self.data_manager.get_id(id)
+        res = self.data_manager.get(key='_id', value=id)
 
         if res == None:
             raise LookupError("There is no event with that ID")

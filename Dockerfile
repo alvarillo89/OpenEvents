@@ -6,7 +6,7 @@ LABEL maintainer="Álvaro alvaro89@correo.ugr.es"
 
 # Definir el puerto y la url de la base de datos como variables de entorno:
 ENV PORT ${PORT}
-ENV EVENTS_DB_URL ${EVENTS_DB_URL} 
+ENV DB_URI ${DB_URI} 
 
 # Establecer el directorio de trabajo:
 WORKDIR /usr/src/app
