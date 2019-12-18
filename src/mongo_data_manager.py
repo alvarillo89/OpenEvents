@@ -12,7 +12,7 @@ class MongoDataManager:
 
     # Define CRUD operations:
     def insert(self, element):
-        _id = self.collection.insert_one(element).inserted_id
+        _id = self.collection.insert_one(element.copy()).inserted_id
         return str(_id)
 
 
