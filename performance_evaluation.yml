@@ -1,0 +1,11 @@
+execution:
+    - concurrency: 10
+      ramp-up: 10s
+      hold-for: 50s
+      scenario: quick-test
+
+scenarios:
+    quick-test:
+        requests:
+        - http://localhost:8080/event/title/Vega%20Jam%202019
+    
