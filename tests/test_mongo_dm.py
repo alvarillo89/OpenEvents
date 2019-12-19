@@ -43,7 +43,7 @@ class TestEvents(unittest.TestCase):
         """ Test the query of an existing and non-exising event by title """
         out_ok = self.client.get(key='title', value=self.sample_event['title'])
         out_fail = self.client.get(key='title', value='non-existing title')
-        del out_ok['_id']
+        self.sample_event['_id'] = self.sample_id
         self.assertEqual(out_ok, self.sample_event)
         self.assertEqual(out_fail, None)
 
@@ -61,7 +61,7 @@ class TestEvents(unittest.TestCase):
         """ Test the insertion of a new element """
         id = self.client.insert(element=self.sample_event)
         event = self.client.collection.find_one({'_id': ObjectId(id)})
-        del event['_id']
+        self.sample_event['_id'] = ObjectId(id)
         self.assertEqual(event, self.sample_event)
 
     
@@ -79,7 +79,7 @@ class TestEvents(unittest.TestCase):
         event = self.client.collection.find_one({'_id': ObjectId(self.sample_id)})
         self.sample_event['title'] = new_values['title']
         self.sample_event['organizer'] = new_values['organizer']
-        del event['_id']
+        self.sample_event['_id'] = ObjectId(self.sample_id)
         self.assertEqual(self.sample_event, event)
 
 

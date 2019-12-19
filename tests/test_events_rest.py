@@ -65,6 +65,8 @@ class TestEventsRest(unittest.TestCase):
         self.assertEqual(request.status, HTTP_201)
         self.assertEqual("Event Added. ID=" + self.sample_id, request.data)
         self.mock.get.assert_called_with(key='title', value=self.sample_title)
+        # Convert the date to string:
+        self.sample_event['date'] = self.sample_event['date'].strftime('%Y-%m-%dT%H:%M:%S')
         self.mock.insert.assert_called_with(self.sample_event)
 
 

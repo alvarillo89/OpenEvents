@@ -4,6 +4,10 @@ language: python
 # No es necesario especificar el sistema operativo, puesto
 # que Travis utiliza Linux por defecto.
 
+# Le indicamos a Travis que necesitamos MongoDB para los test:
+services:
+  - mongodb
+
 # Ejecutar los test sobre diferentes versiones de python:
 python:
   - "3.5"
@@ -17,6 +21,11 @@ python:
 install:
   - make install
   - pip install codecov # Adicionalmente instalamos codecov:
+
+# Crear la base de datos y la colección que necesitamos para los tests:
+before_script:
+  - sleep 15 # Recomendado por travis para evitar errores de conexión.
+  - mongo EventsDB --eval 'db.createCollection("events");'
 
 # Ejecutar los test con la herramienta de construcción:
 script:

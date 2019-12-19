@@ -28,8 +28,7 @@ def getEvent(title, response):
 @hug.post("/event")
 def addEvent(body, response):
     try:
-        date = datetime.datetime.strptime(body["date"], '%Y-%m-%dT%H:%M:%S')
-        id = event.create(body['title'], body['organizer'], date, body['address'],
+        id = event.create(body['title'], body['organizer'], body['date'], body['address'],
             body['description'], body['prize'], body['tickets_availables'])
         response.status = HTTP_201
         return "Event Added. ID={}".format(id)
