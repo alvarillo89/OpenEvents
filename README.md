@@ -99,3 +99,9 @@ La aplicación desplegada está disponible bajo la siguiente dirección:
 https://openevents.herokuapp.com
 
 Consulte el [**siguiente enlace**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/heroku.md) para conocer más detalles sobre el proceso seguido para el despliegue.
+
+---
+
+### Almacén de Datos
+
+Tal y como se describe en la sección *Arquitectura e infrestructura*, este proyecto utiliza `MongoDB` como almacén de datos. En el [siguiente enlace](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/mongo.md) se describe como se ha integrado este servicio en el microservicio `Events`.
