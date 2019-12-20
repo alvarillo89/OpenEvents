@@ -104,4 +104,8 @@ Consulte el [**siguiente enlace**](https://github.com/alvarillo89/UGR-CC-Project
 
 ### Almacén de Datos
 
-Tal y como se describe en la sección *Arquitectura e infrestructura*, este proyecto utiliza `MongoDB` como almacén de datos. En el [siguiente enlace](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/mongo.md) se describe como se ha integrado este servicio en el microservicio `Events`.
+Tal y como se describe en la sección *Arquitectura e infrestructura*, este proyecto utiliza `MongoDB` como almacén de datos. 
+
+> **Nota:** Deberá configurar una variable de entorno llamada `DB_URI` que contenga la uri de la base de datos a la que se conectará el microservicio.
+
+En el [siguiente enlace](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/mongo.md) se describe como se ha integrado este servicio en el microservicio `Events`.
