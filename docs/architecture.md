@@ -27,7 +27,7 @@ Se necesita almacenar lo siguiente:
 - Datos de Eventos.
 - Registros de pago de las entradas y códigos de validación para futuras comprobaciones.
 
-Puesto que lo que nos interesa es recuperar eficientemente información (ya sea de eventos o de pagos realizados) a partir de identificadores (como puede ser el identificador del evento o el código de validación de una entrada) utilizaremos almacenes de datos basados en clave-valor. Para este proyecto, se empleará [Redis](https://redis.io/). De entre todas las funciones que ofrece, también puede utilizarse como un almacén *key-value* muy eficiente.
+Puesto que los eventos y registros se representarán internamente como diccionarios y se utilizarán archivos `json` para las comunicaciones, el uso de una base de datos orientada a documentos simplificará notablemente los procesos de almacenamiento y consulta, evitando conversiones intermedias. Para este proyecto, se utilizará una de las bases de datos `NoSQL` más conocidas: [MongoDB](https://www.mongodb.com/es).
 
 ### Lenguajes y dependencias:
 
@@ -36,3 +36,12 @@ Los dos microservicios se implementarán en `Python`. Se ha escogido este lengua
 El microservicio `EventManager` no presenta ninguna funcionalidad que sea más facil de implementar en algún otro lenguaje, por tanto y de cara a facilitar la creación de los tests, también se implementará en `Python`.
 
 Por último, para implementar las APIs Rest, se utilizará [hug](https://www.hug.rest/), un módulo que destaca por simplificar enormemente el desarrollo de APIs (sobre todo con múltiples interfaces de acceso), generando código simple, limpio y con un alto grado de eficiencia.
+
+
+# Arquitectura de los microservicios
+
+### Arquitectura por capas
+
+El microservicio `Event` se ha implementado internamente siguiendo una arquitectura por capas. En una primera capa se encontraría la lógica de negocio del microservicio (sobre la que se ejecutan los tests unitarios) y por encima de ella se encontraría la API REST (sobre la que se ejecutan los tests de integración). Esta última tiene un objeto de la clase `Events`, el cual sirve como interfaz para acceder a los métodos de la primera capa. Para una mayor claridad, aquí se muestra una representación gráfica:
+
+![](imgs/resources3/capas.png)

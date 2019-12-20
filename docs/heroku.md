@@ -43,3 +43,12 @@ El campo más relevante es `stack` que le indica a Heroku que se utilizará Dock
 *Referencias para la creación del botón:*
 + https://devcenter.heroku.com/articles/heroku-button
 + https://devcenter.heroku.com/articles/app-json-schema
+
+---
+
+## Enlaces de prueba:
+
+A continuación se muestran algunos enlaces a los que se puede acceder para comprobar el funcionamiento de la aplicación desplegada:
+
++ Si accedemos a https://openevents.herokuapp.com/event/title/mievento podremos ver la respuesta `"Event not found"`, puesto que no existe un evento con el nombre `"mievento"`.
++ Si accedemos a https://openevents.herokuapp.com/event/title/Vega%20Jam%202019 a diferencia del anterior, si que podremos ver la informción de un evento existente (llamado `Vega Jam 2019`).

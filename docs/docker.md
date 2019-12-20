@@ -1,4 +1,17 @@
-# Comparación de prestaciones de diferentes contenedores Docker
+# Contenedores y Docker
+
+## Microservicio Events
+El contenedor del microservicio `Events` contiene, además de los archivos del microservicio, todas las dependencias que necesita para ejecutarse: `hug`, `gunicorn` y el intérprete de `python3`. Además, el repositorio de Docker Hub mostrado en el `README.md`, está enlazado con este repositorio de Github. De esta forma, cada vez que se haga un cambio en el repositorio, se reconstruirá la imagen y se actualizará automáticamente en Docker Hub (la [siguiente imagen](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/imgs/resources3/DockerHubGithub.png) muestra la conexión).
+
+Como sistema operativo utiliza `minideb`. Cabe decir que no es esta la única imagen base con la que se ha probado, sino que se han comparado las prestaciones de varias imágenes diferentes. En la sección *Comparación de prestaciones de diferentes contenedores Docker* se describe el proceso seguido para llegar a esta elección.
+
+La imagen se ha subido adicionalmente a [**Github Packages Registry**](https://github.com/alvarillo89/UGR-CC-Project/packages/63964) y se ha automatizado su construcción y subida mediante el [**siguiente workflow**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/.github/workflows/publishDocker.yml).
+
+Por último, si desea conocer más detalles sobre la imagen, consulte el fichero [**Dockerfile**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/Dockerfile), el cual contiene comentarios explicativos.
+
+---
+
+## Comparación de prestaciones de diferentes contenedores Docker
 
 A la hora de decidir cuál será el sistema operativo (o imagen base) que utilizaremos para el contenedor del  microservicio, debemos realizar un estudio comparativo entre diferentes alternativas y quedarnos con aquella que proporcione el mejor desempeño para nuestro sistema.
 

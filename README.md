@@ -13,7 +13,7 @@ Puede consultar cómo se configuró Git y Github para el proyecto en [este enlac
 
 ### Arquitectura e Infraestructura
 
-La aplicación se implementa siguiendo una arquitectura basada en microservicios. Puede consultar con mayor detalle la *Arquitectura e Infraestructura* del proyecto en el [siguiente enlace](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/architecture.md).
+La aplicación se implementa siguiendo una arquitectura basada en microservicios. Puede consultar con mayor detalle la *Arquitectura e Infraestructura* del proyecto, y de cada microservicio, en el [siguiente enlace](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/architecture.md).
 
 ---
 
@@ -46,10 +46,7 @@ $ make install
 $ make test
 ```
 
-Ejecuta los tests del proyecto:
-+ Tests unitarios sobre el módulo `Events`.
-+ Tests de integración sobre la `API REST`.
-+ Tests de cobertura sobre los dos módulos anteriores.   
+Ejecuta todos los tests presentes en directorio [tests/](https://github.com/alvarillo89/UGR-CC-Project/tree/master/tests) (tests unitarios, de integración y de cobertura).  
 
 Para los test unitarios y de integración se ha utilizado `unittest`, simplemente porque ya está incorporado en la propia ditribución de Python y no requiere de la instalación de un módulo externo. Para los test de cobertura se ha utilizado `coverage.py`. Dicho módulo generará el archivo `.coverage` que contiene el *report* de los test de cobertura. La herramienta que desee utilizar para la visualización del reporte queda a su elección. En los tests de integración contínua se ha utilizado `Codecov`.
 
@@ -83,25 +80,13 @@ El proyecto utiliza dos sistemas de integración contínua diferentes: `Travis-C
 
 ----
 
-### Arquitectura por capas
-
-El microservicio `Event` se ha implementado internamente siguiendo una arquitectura por capas. En una primera capa se encontraría la lógica de negocio del microservicio (sobre la que se ejecutan los tests unitarios) y por encima de ella se encontraría la API REST (sobre la que se ejecutan los tests de integración). Esta última tiene un objeto de la clase `Events`, el cual sirve como interfaz para acceder a los métodos de la primera capa. Para una mayor claridad, aquí se muestra una representación gráfica:
-
-![](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/imgs/resources3/capas.png)
-
-----
-
 ### Contenedor Docker
 
 Contenedor: https://hub.docker.com/r/alvarillo89/events
 
-En el enlace superior puede acceder a la imagen del contenedor publicada en Docker Hub, que contiene el microservicio `Events` junto con todas las dependencias que necesita para ejecutarse: `hug`, `gunicorn` y el intérprete de `python3`. Dicho repositorio de Docker Hub está enlazado con este repositorio de Github, de esta forma, cada vez que se haga un cambio en el repositorio, se reconstruirá la imagen y se actualizará automáticamente en Docker Hub (la [siguiente imagen](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/imgs/resources3/DockerHubGithub.png) muestra la conexión).
+En el enlace superior puede acceder a la imagen del contenedor publicada en Docker Hub, que contiene el microservicio `Events` junto con todas las dependencias que necesita para ejecutarse. También se ha subido adicionalmente a [**Github Packages Registry**](https://github.com/alvarillo89/UGR-CC-Project/packages/63964).
 
-Como sistema operativo utiliza `minideb`. Cabe decir que no es esta la única imagen base con la que se ha probado, sino que se han comparado las prestaciones de varias imágenes diferentes. En el [**siguiente enlace**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/dockercomparison.md) se describe el proceso seguido para llegar a esta elección.
-
-La imagen se ha subido adicionalmente a [**Github Packages Registry**](https://github.com/alvarillo89/UGR-CC-Project/packages/63964) y se ha automatizado su construcción y subida mediante el [**siguiente workflow**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/.github/workflows/publishDocker.yml).
-
-Por último, para conocer más detalles sobre la imagen, consulte el fichero [**Dockerfile**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/Dockerfile), el cual contiene comentarios explicativos.
+Para más información sobre la construcción del contenedor, consulte el [**siguiente enlace**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/docker.md).
 
 ---
 
@@ -113,7 +98,4 @@ La aplicación desplegada está disponible bajo la siguiente dirección:
 
 https://openevents.herokuapp.com
 
-Si accedemos a https://openevents.herokuapp.com/event/title/mievento podremos ver la respuesta `"Event not found"`, puesto que no existe un evento con el nombre `"mievento"`. Esto nos sirve para comprobar que funciona.
-
-Consulte el [**siguiente enlace**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/heroku.md) para conocer detalles sobre el proceso seguido para el despliegue.
-
+Consulte el [**siguiente enlace**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/heroku.md) para conocer más detalles sobre el proceso seguido para el despliegue.
