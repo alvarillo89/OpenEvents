@@ -28,12 +28,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           make install
-      # De momento, los servicios de GitHub Actions no incorporan MongoDB, por lo que
-      # para utilizarlo en los test, emplearemos un contenedor docker:
-      - name: Set Up Mongo
-        run: |
-          docker run --name mongo -d -p 27017:27017 mongo
-          docker exec mongo mongo EventsDB --eval 'db.createCollection("events");'
       # Ejecutar los test:
       - name: Test
         run: |
