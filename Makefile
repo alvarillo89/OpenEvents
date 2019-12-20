@@ -22,9 +22,13 @@ clean:
 # 	"--chdir src" sirve para movernos al directorio src antes de que la app se cargue. Es necesario
 # 		porque el script events_rest.py se encuentra bajo este directorio, sin embargo nosotros 
 #		ejecutamos make desde el directorio raíz.
-# 	"-w 4" especifica el número de workers que atenderán las peticiones. Se arrancarán 4 copias
-# 		exactas de events_rest que atenderán peticiones sobre el mismo puerto. La documentación de
-#		gunicorn recomienda utilizar de 2 a 4 workers. Nosotros hemos escogido el valor más alto.
+#	"--worker-class eventlet" con esta opción especificamos el tipo de workers que utilizará
+#		gunicorn. `eventlet` es un modulo que proporciona workers asíncronos, los cuales nos
+#		permitiran obtener mejores prestaciones.
+# 	"-w 10" especifica el número de workers que atenderán las peticiones. Se arrancarán 10 copias
+# 		exactas de events_rest que atenderán peticiones sobre el mismo puerto. Puesto que queremos
+#		unas prestaciones en las que el servidor sea capaz de atender 10 usuarios simultáneos,
+#		estableceremos un worker por cada uno de ellos.
 #	"-b HOST:PORT" especficia el server socket al que enlazarse. Previamente hay que definir las dos
 #		variables de entorno correspondientes.
 #	"-p gunicorn.pid" crea un fichero temporal bajo el directorio src (llamado gunicorn.pid) que 
@@ -35,7 +39,8 @@ clean:
 #	(web server gateway interface) __hug_wsgi__, un objeto creado por hug que actúa como interfaz
 #	para conectar directamente con las funciones del módulo.
 start:
-	gunicorn --chdir src -w 4 -b ${HOST}:${PORT} -p gunicorn.pid --daemon events_rest:__hug_wsgi__
+	gunicorn --chdir src --worker-class eventlet -w 10 -b ${HOST}:${PORT} -p gunicorn.pid \
+		--daemon events_rest:__hug_wsgi__
 
 # Parar el servicio web utilizando el fichero con el PID escrito al arrancarlo:
 stop:

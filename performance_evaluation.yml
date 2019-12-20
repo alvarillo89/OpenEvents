@@ -1,11 +1,34 @@
+# Fichero para evaluación de prestaciones con Taurus:
 execution:
-    - concurrency: 10
-      ramp-up: 10s
-      hold-for: 50s
-      scenario: quick-test
+    - concurrency: 10   # 10 usuarios simultáneos
+      ramp-up: 10s    # En 10s se alcanzan los 10 usuarios
+      hold-for: 50s   # Cada usuario mantiene la conexión durante 50s
+      scenario: events-rest-test  # Nombre del test (escenario) a ejecutar
 
+# Ahora definimos el test/escenario a ejecutar:
 scenarios:
-    quick-test:
+    events-rest-test:
+        # Las peticiones que se harán:
         requests:
-        - http://localhost:8080/event/title/Vega%20Jam%202019
-    
+        # El POST solo se hará una vez por hebra (solo podemos tener un evento con el
+        # mismo título, por lo que solo una petición será correcta: la primera)
+        - once:
+          - url: http://localhost:8080/event/
+            method: POST
+            # Indicamos que el contenido de la petición es un JSON
+            header:
+              Content-Type: application/json
+            # En el cuerpo, indicamos los parámetros del JSON:
+            body:
+              title: "Sample"
+              organizer: "Sample"
+              date: "dd/mm/yyyyThh:mm"
+              address: "Sample"
+              description: "Sample"
+              prize: 1.0
+              tickets_availables: 10
+        # Ahora hacemos dos peticiones GET: la primera es correcta, la segunda devuelve 404:
+        - url: http://localhost:8080/event/title/Sample
+          method: GET
+        - url: http://localhost:8080/event/title/NonExisting
+          method: GET
