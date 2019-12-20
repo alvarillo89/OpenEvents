@@ -22,11 +22,6 @@ install:
   - make install
   - pip install codecov # Adicionalmente instalamos codecov:
 
-# Crear la base de datos y la colección que necesitamos para los tests:
-before_script:
-  - sleep 15 # Recomendado por travis para evitar errores de conexión.
-  - mongo EventsDB --eval 'db.createCollection("events");'
-
 # Ejecutar los test con la herramienta de construcción:
 script:
   - make test
