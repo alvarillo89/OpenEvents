@@ -32,8 +32,8 @@ jobs:
       # para utilizarlo en los test, emplearemos un contenedor docker:
       - name: Set Up Mongo
         run: |
-          sudo docker run --name mongo -d -p 27017:27017 mongo
-          sudo docker exec mongo mongo EventsDB --eval 'db.createCollection("events");'
+          docker run --name mongo -d -p 27017:27017 mongo
+          docker exec mongo mongo EventsDB --eval 'db.createCollection("events");'
       # Ejecutar los test:
       - name: Test
         run: |
