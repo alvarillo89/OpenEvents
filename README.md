@@ -108,4 +108,14 @@ Tal y como se describe en la sección *Arquitectura e infrestructura*, este proy
 
 > **Nota:** Deberá configurar una variable de entorno llamada `DB_URI` que contenga la uri de la base de datos a la que se conectará el microservicio.
 
-En el [siguiente enlace](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/mongo.md) se describe como se ha integrado este servicio en el microservicio `Events`.
+En el [**siguiente enlace**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/mongo.md) se describe cómo se ha integrado este servicio en el microservicio `Events`.
+
+---
+
+### Evaluación de prestaciones
+
+Prestaciones: performance_evaluation.yml
+
+Las prestaciones del microservicio `Events` se han evaluado utilizando [Taurus](https://gettaurus.org/). Se pedía alcanzar un rendimiento estimado de 1000 peticiones/s con 10 usuarios concurrentes. El resultado que finalmente se ha obtenido en su rendimiento es de **2976 peticiones/s** de media con 10 usuarios concurrentes.
+
+En el [**siguiente enlace**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/performance.md), se puede consultar el proceso de evaluación realizado junto con todas las modificaciones que se han efectuado para alcanzar el rendimiento deseado.
