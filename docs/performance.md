@@ -95,4 +95,4 @@ De la misma podemos sacar las siguientes conclusiones:
 
 - Es recomendable fijar apropiadamente el número de workers que necesitamos, por ejemplo, uno por cada usuario simultáneo que deseemos atender.
 - Es recomendable que estos workers sean asíncronos.
-- Hay que prestar especial cuidado a la latencia que existe en el acceso a la base de datos. Esta debe ser lo más rápida posible y una forma de conseguirlo es que sea local al sistema en el que se está ejecutando el servicio web del microservicio.
+- Hay que prestar especial cuidado a la latencia que existe en el acceso a la base de datos. Esta debe ser lo más rápida posible y una forma de conseguirlo es que sea local al sistema en el que se está ejecutando el servicio web del microservicio. 
