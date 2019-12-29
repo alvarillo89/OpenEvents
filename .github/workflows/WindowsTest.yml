@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: |
           choco install ghostscript --version=9.26
-          set PATH=C:\Program Files\gs\gs9.26\bin;%PATH%
+          set "path=C:\Program Files\gs\gs9.26\bin;%path%"
           python -m pip install --upgrade pip
           make install
       # Ejecutar los test:
