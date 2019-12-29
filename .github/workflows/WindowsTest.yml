@@ -26,7 +26,8 @@ jobs:
       # Instalar las depedencias necesarias para los test:
       - name: Install dependencies
         run: |
-          Install-Package Ghostscript       
+          Invoke-WebRequest https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs950/gs950w64.exe -OutFile gs.exe
+          gs.exe  
           python -m pip install --upgrade pip
           make install
       # Ejecutar los test:
