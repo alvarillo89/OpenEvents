@@ -11,7 +11,7 @@ sys.path.append("src")
 
 from mongo_data_manager import MongoDataManager
 
-class TestEvents(unittest.TestCase):
+class TestMongo(unittest.TestCase):
 
     def setUp(self):
         # Create client:
