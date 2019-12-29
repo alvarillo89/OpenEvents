@@ -31,6 +31,8 @@ jobs:
       # Ejecutar los test: (tickets no es compatible con windows):
       - name: Test
         run: |
+          python tests/test_events.py
+          python tests/test_events_rest.py
           python tests/test_mongo_dm.py
         env:
           DB_URI: ${{ secrets.DB_URI }}
