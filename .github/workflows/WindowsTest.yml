@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: |
           choco install ghostscript
-          DIR "C:\Program Files (x86)\"
+          DIR "C:\ProgramData\chocolatey\lib\"
           python -m pip install --upgrade pip
           make install
       # Ejecutar los test:
