@@ -9,7 +9,7 @@ jobs:
     runs-on: windows-latest
     # Se probará con 3 versiones de Python en paralelo:
     strategy:
-      max-parallel: 3
+      max-parallel: 1
       matrix:
         python-version: [3.5, 3.6, 3.7]
 
@@ -26,6 +26,7 @@ jobs:
       # Instalar las depedencias necesarias para los test:
       - name: Install dependencies
         run: |
+          Install-Package Ghostscript        
           python -m pip install --upgrade pip
           make install
       # Ejecutar los test:
