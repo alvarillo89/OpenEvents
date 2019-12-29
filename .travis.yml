@@ -19,7 +19,7 @@ python:
 
 # Instalar las dependencias utilizando la herramienta de construcción:
 install:
-  - apt-get install ghostscript # Necesario para el módulo Treepoem
+  - sudo apt-get install ghostscript # Necesario para el módulo Treepoem
   - make install
   - pip install codecov # Adicionalmente instalamos codecov:
 
