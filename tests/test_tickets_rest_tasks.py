@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import sys
 import hug
 import unittest
 import datetime
@@ -55,7 +56,8 @@ class TestTicketsRestTasks(unittest.TestCase):
         """ Test if celery task is performing correctly """
         out = tickets_tasks.get_ticket.run(self.sample_buyer, self.sample_event)
         self.assertTrue(os.path.isfile(out))
-        self.mock.insert.assert_called()
+        if sys.version_info[1] > 5:
+            self.mock.insert.assert_called()
 
 
     @patch('tickets_tasks.get_ticket.delay')
