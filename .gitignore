@@ -123,3 +123,6 @@ dmypy.json
 
 # Vscode:
 .vscode/
+
+# Start rabbitMQ:
+start_rabbitMQ.sh
