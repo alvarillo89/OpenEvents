@@ -28,11 +28,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           make install
-      # Ejecutar los test: (tickets no es compatible con windows):
+      # Ejecutar los test: (El microservicio Tickets no es compatible con Windows, por lo que
+      # solo testeamos el microservicio Events):
       - name: Test
         run: |
-          python tests/test_events.py
-          python tests/test_events_rest.py
-          python tests/test_mongo_dm.py
+          python -m unittest -v tests/test_events.py tests/test_events_rest.py tests/test_mongo_dm.py
         env:
           DB_URI: ${{ secrets.DB_URI }}
