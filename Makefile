@@ -11,6 +11,7 @@ test:
 	coverage run -a tests/test_events_rest.py
 	coverage run -a tests/test_mongo_dm.py
 	coverage run -a tests/test_tickets.py
+	coverage run -a tests/test_tickets_rest_tasks.py
 
 # Limpiar el directorio de las carpetas y ficheros que se generan
 # tras la ejecución:

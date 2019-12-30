@@ -4,9 +4,10 @@ language: python
 # No es necesario especificar el sistema operativo, puesto
 # que Travis utiliza Linux por defecto.
 
-# Le indicamos a Travis que necesitamos MongoDB para los test:
+# Le indicamos a Travis que necesitamos MongoDB y RabbitMQ para los test:
 services:
   - mongodb
+  - rabbitmq
 
 # Ejecutar los test sobre diferentes versiones de python:
 python:
