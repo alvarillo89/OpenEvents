@@ -36,16 +36,16 @@ Tras seguir el proceso de instalación y configuración para nuestra distribuci�
 
 ---
 
-## Integrando MongoDB en el microservicio Events
+## Integrando MongoDB en los microservicios
 
 El primer paso es elegir qué módulo de Python emplearemos para interactuar con la base de datos. Se ha escogido [Pymongo](https://api.mongodb.com/python/current/), ya que su uso está bastante extendido y además es el que se utiliza en los tutoriales de [w3schools](https://www.w3schools.com/python/python_mongodb_getstarted.asp).
 
 A continuación, debemos crear la clase de Python que actuará como interfaz para trabajar con la base de datos y que utilizará el módulo descrito anteriormente. Dicha clase, llamada `MongoDataManager`, se encuentra en el [siguiente script](https://github.com/alvarillo89/UGR-CC-Project/blob/master/src/mongo_data_manager.py). Contiene métodos para realizar las operaciones básicas de una base de datos: consultar, insertar, borrar y modificar (las llamadas operaciones CRUD). También se han creado sus correspondientes [tests](https://github.com/alvarillo89/UGR-CC-Project/blob/master/tests/test_mongo_dm.py).
 
 
-Por último, mediante el principio de **inyección de dependencias**, inyectamos el objeto `MongoDataManager` en la clase [Events](https://github.com/alvarillo89/UGR-CC-Project/blob/master/src/Events.py) en el momento de la construcción. Con esto conseguimos que la clase `Events` utilice de forma abstracta el objeto que maneja la base de datos, independientemente de la implementación que haya por debajo. Si en el futuro deseamos cambiar la base de datos por otra (por ejemplo, una basada en SQL) solo deberíamos programar la clase que haga uso de SQL con la misma interfaz/métodos que la clase `MongoDataManager` e inyectarla en la clase `Events`. El microservicio no será consciente de este cambio.
+Por último, mediante el principio de **inyección de dependencias**, inyectamos el objeto `MongoDataManager` en las clases [Events](https://github.com/alvarillo89/UGR-CC-Project/blob/master/src/Events.py) y [Tickets](https://github.com/alvarillo89/UGR-CC-Project/blob/master/src/Tickets.py) en el momento de la construcción. Con esto conseguimos que ambas clases utilicen de forma abstracta el objeto que maneja la base de datos, independientemente de la implementación que haya por debajo. Si en el futuro deseamos cambiar la base de datos por otra (por ejemplo, una basada en SQL) solo deberíamos programar la clase que haga uso de SQL con la misma interfaz/métodos que la clase `MongoDataManager` e inyectarla de nuevo en las clases. Los microservicios no serán conscientes de este cambio.
 
-> **Nota:** Deberá configurar una variable de entorno llamada `DB_URI` que contenga la uri de la base de datos a la que se conectará el microservicio. En nuestro caso será la que nos proporcione Atlas o la uri local (depende de qué queramos utilizar).
+> **Nota:** Deberá configurar una variable de entorno llamada `DB_URI` que contenga la uri de la base de datos a la que se conectarán los microservicios. En nuestro caso será la que nos proporcione Atlas o la uri local (depende de qué queramos utilizar).
 
 ---
 

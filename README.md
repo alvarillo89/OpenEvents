@@ -24,9 +24,9 @@ El proyecto está implementado en Python. Para su correcto funcionamiento deber�
 + Mínima versión compatible:  3.5 
 + Máxima versión compatible:  3.8 (incluída la versión en desarrollo)
 
-> *Nota: estas versiones se han testeado en Linux. En Windows solo se ha comprobado hasta la versión 3.7, se desconoce el comportamiento para la versión 3.8*.
+Adicionalmente, deberá disponer de la herramienta `Makefile` y tener instalado [Ghostscript](https://www.ghostscript.com/) en su sistema, dependencia necesaria que deberá instalar manualmente para el correcto funcionamiento del módulo `treepoem`.
 
-Adicionalmente, deberá disponer de la herramienta `Makefile`.
+> *Nota: El microservicio `Tickets` **solo es compatible con un sistema Linux.** El módulo `treepoem` no reconoce correctamente `ghostscript` en Windows, por lo que no funciona apropiadamente*. El microservicio `Events` funciona sin problemas en ambos sistemas operativos, aunque  las versiones mencionadas anteriormente se han testeado en Linux. En Windows solo se ha comprobado hasta la versión 3.7, por lo que se desconoce el comportamiento para la versión 3.8.
 
 ---
 
@@ -60,7 +60,12 @@ $ make clean
 $ make start
 ```
 
-*Arranca el servicio web del microservicio `Events` utilizando [Gunicorn](https://gunicorn.org/).* Previamente a la ejecución de esta orden, deberá configurar dos variables de entorno: `HOST` conteniendo la dirección y `PORT` conteniendo el puerto. Ambas definirán el server socket al que gunicorn debe enlazarse.
+*Arranca los servicios web de ambos microservicios utilizando [Gunicorn](https://gunicorn.org/). También arranca la cola de tareas de [Celery](http://www.celeryproject.org/).* Previamente a la ejecución de esta orden, deberá configurar una serie de variables de entorno: 
+
+- `HOST_E` y `PORT_E` conteniendo la dirección y el puerto del server socket para el microservicio `Events`.
+- `HOST_T` y `PORT_T` conteniendo la dirección y el puerto del server socket para el microservicio `Tickets`.
+- `DB_URI` continendo la uri de la base de datos de MongoDB.
+- `CELERY_BROKER` y `CELERY_BACKEND` contiendo las urls del broker y backend que utilizará Celery, respectivamente. 
 
 > Para más información sobre los parámetros con los que gunicorn es arrancado consulte el [**fichero Makefile**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/Makefile).
 
@@ -68,7 +73,7 @@ $ make start
 $ make stop
 ```
 
-*Finaliza la ejecución del servicio web del microservicio `Events` y todos sus workers.*
+*Finaliza la ejecución de los servicios web de ambos microservicios y todos sus workers. También para la ejecución de Celery.*
 
 Para más detalles, consulte el [**fichero Makefile**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/Makefile), el cual contiene comentarios explicativos.
 
@@ -80,7 +85,7 @@ El proyecto utiliza dos sistemas de integración contínua diferentes: `Travis-C
 
 ----
 
-### Contenedor Docker
+### Contenedor Docker del microservicio Events
 
 Contenedor: https://hub.docker.com/r/alvarillo89/events
 
@@ -90,7 +95,7 @@ Para más información sobre la construcción del contenedor, consulte el [**sig
 
 ---
 
-### Despliege en Heroku
+### Despliege en Heroku del microservicio Events
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
@@ -112,10 +117,22 @@ En el [**siguiente enlace**](https://github.com/alvarillo89/UGR-CC-Project/blob/
 
 ---
 
-### Evaluación de prestaciones
+### Evaluación de prestaciones del microservicio Events
 
 Prestaciones: performance_evaluation.yml
 
 Las prestaciones del microservicio `Events` se han evaluado utilizando [Taurus](https://gettaurus.org/). Se pedía alcanzar un rendimiento estimado de 1000 peticiones/s con 10 usuarios concurrentes. El resultado que finalmente se ha obtenido en su rendimiento es de **2976 peticiones/s** de media con 10 usuarios concurrentes.
 
 En el [**siguiente enlace**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/performance.md), se puede consultar el proceso de evaluación realizado junto con todas las modificaciones que se han efectuado para alcanzar el rendimiento deseado.
+
+---
+
+### Implementación del microservicio Tickets
+
+La implementación de este microservicio incluye los tres scripts siguientes:
+
+- [**Tickets.py**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/src/Tickets.py)
+- [**tickets_task.py**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/src/tickets_tasks.py)
+- [**tickets_rest.py**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/src/tickets_rest.py)
+
+Puede consultar con mayor detalle la documentación sobre como se ha implementado este microservicio y como se ha integrado con el resto del sistema en la [descripción de la Arquitectura de la aplicación](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/architecture.md).
