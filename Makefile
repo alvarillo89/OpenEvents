@@ -4,7 +4,7 @@ install:
 	# requirements.txt
 	pip install -r requirements.txt
 
-# Ejecutar los test unitarios y de cobertura
+# Ejecutar los test unitarios, de integración y de cobertura
 test:
 	# Usamos coverage.py para generar el fichero .coverage:
 	coverage run tests/test_events.py
@@ -20,30 +20,44 @@ clean:
 	rm -rf tests/__pycache__/
 	rm .coverage
 
-# Arrancar el servicio web utilizando gunicorn (Green Unicorn):
+# (1) Arrancar los servicios web de ambos microservicios utilizando gunicorn (Green Unicorn):
 # 	"--chdir src" sirve para movernos al directorio src antes de que la app se cargue. Es necesario
-# 		porque el script events_rest.py se encuentra bajo este directorio, sin embargo nosotros 
-#		ejecutamos make desde el directorio raíz.
+# 		porque los scripts de ambos microservicios se encuentra bajo este directorio, sin embargo  
+#		nosotros ejecutamos make desde el directorio raíz.
 #	"--worker-class eventlet" con esta opción especificamos el tipo de workers que utilizará
 #		gunicorn. `eventlet` es un modulo que proporciona workers asíncronos, los cuales nos
 #		permitiran obtener mejores prestaciones.
 # 	"-w 10" especifica el número de workers que atenderán las peticiones. Se arrancarán 10 copias
-# 		exactas de events_rest que atenderán peticiones sobre el mismo puerto. Puesto que queremos
-#		unas prestaciones en las que el servidor sea capaz de atender 10 usuarios simultáneos,
+# 		exactas de cada api rest que atenderán peticiones sobre el mismo puerto. Puesto que queremos
+#		unas prestaciones en las que los servidores sean capaces de atender 10 usuarios simultáneos,
 #		estableceremos un worker por cada uno de ellos.
-#	"-b HOST:PORT" especficia el server socket al que enlazarse. Previamente hay que definir las dos
-#		variables de entorno correspondientes.
-#	"-p gunicorn.pid" crea un fichero temporal bajo el directorio src (llamado gunicorn.pid) que 
-# 		contiene el PID asociado al proceso de gunicorn. Lo almacenamos para poder parar el  
-#		servicio más tarde.
-#	"--daemon" lanza el servicio en segundo plano para que no se congele la terminal.
+#	"-b HOST_X:PORT_X" especficia el server socket al que enlazarse. Previamente hay que definir las
+#		variables de entorno correspondientes. Se debe definir un par de variables para cada uno de
+#		los microservicios.
+#	"-p *.pid" crea un fichero temporal bajo el directorio src que contiene el PID asociado al 
+#		proceso de gunicorn. Lo almacenamos para poder parar el servicio más tarde.
+#	"--daemon" lanza los servicios en segundo plano para que no se congele la terminal.
 # 	Por último, se especifica el nombre del módulo que se va a ejecutar seguido de la interfaz WSGI 
 #	(web server gateway interface) __hug_wsgi__, un objeto creado por hug que actúa como interfaz
 #	para conectar directamente con las funciones del módulo.
-start:
-	gunicorn --chdir src --worker-class eventlet -w 10 -b ${HOST}:${PORT} -p gunicorn.pid \
-		--daemon events_rest:__hug_wsgi__
+# (2) Arrancar Celery para el microservicio tickets:
+#	- Primero nos movemos al directorio src, pues el script que contiene la App de celery se 
+#	encuentra ahí.
+#	- Con -A le indicamos el script que contiene la App de Celery.
+#	- worker para indicar que deseamos lanzar un worker para la App especificada anteriormente.
+#	- Con --detach hacemos que Celery se ejecute en segundo plano para no bloquear la terminal.
 
-# Parar el servicio web utilizando el fichero con el PID escrito al arrancarlo:
+start:
+	gunicorn --chdir src --worker-class eventlet -w 10 -b ${HOST_E}:${PORT_E} -p events.pid \
+		--daemon events_rest:__hug_wsgi__
+	
+	gunicorn --chdir src --worker-class eventlet -w 10 -b ${HOST_T}:${PORT_T} -p tickets.pid \
+		--daemon tickets_rest:__hug_wsgi__
+
+	cd src && celery -A tickets_tasks worker --detach
+
+# Parar los servicios web y Celery utilizando los ficheros con el PID escritos al arrancarlos:
 stop:
-	kill `cat src/gunicorn.pid`
+	kill `cat src/events.pid`
+	kill `cat src/tickets.pid`
+	kill `cat src/celeryd.pid`
