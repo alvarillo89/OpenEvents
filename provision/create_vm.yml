@@ -1,0 +1,36 @@
+# Este playbook tieme como objetivo definir por código la creación de la VM en Azure.
+# Puesto que no requiere de ningún host en concreto, colocaremos localhost (ya que este
+# campo no puede quedarse vacío, es obligatorio colocarlo en los playbooks de Ansible). 
+- hosts: localhost
+  connection: local
+  # Definimos las tareas del playbook:
+  tasks:
+    - name: Create instances | Create VM on Azure
+      # Con esto le indicamos a Ansible que queremos crear una VM de Azure:
+      azure_rm_virtualmachine:
+        # Indicar el grupo de recursos de Azure al que se añadirá la máquina:
+        resource_group: CloudComputing
+        # El nombre de la máquina:
+        name: OpenEvents-VM
+        # El tipo de máquina que deseamos. Esta en concreto tiene 1GB de RAM y un core.
+        vm_size: Standard_B1s
+        # El nombre de usuario del administrador de la VM. Nos conectaremos a este usuario
+        # por SSH
+        admin_username: openevent
+        # Los puertos que la máquina tendrá abiertos: el de SSH y el puerto 80:
+        open_ports: [22, 80]
+        # Las dos siguientes líneas es para evitar tener que identificarnos mediante una
+        # contraseña al conectarnos con SSH. Lo haremos mediante una clave:
+        os_type: Linux
+        ssh_password_enabled: no
+        # Añadimos nuestra clave pública. Deberá configurarse una variable de entorno llamada
+        # SSH_KEY que la contenga:
+        ssh_public_keys:
+            - path: /home/openevent/.ssh/authorized_keys
+              key_data: "{{ lookup('env','SSH_KEY') }}"
+        # Por último, especificamos la imagen del sistema operativo que instalaremos en la VM:
+        image:
+            offer: UbuntuServer
+            publisher: Canonical
+            sku: 18.04-LTS
+            version: latest
