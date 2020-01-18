@@ -126,3 +126,6 @@ dmypy.json
 
 # Start rabbitMQ:
 start_rabbitMQ.sh
+
+# Ignore ansible roles folder:
+roles/
