@@ -61,3 +61,10 @@ stop:
 	kill `cat src/events.pid`
 	kill `cat src/tickets.pid`
 	kill `cat src/celeryd.pid`
+
+# Instala desde ansible galaxy todos los roles necesarios para el aprovisionamiento:
+# Con -p especificamos la ruta en la que se descargará el rol:
+download:
+	mkdir provision/roles
+	ansible-galaxy install -p provision/roles enix.mongodb
+	ansible-galaxy install -p provision/roles geerlingguy.rabbitmq
