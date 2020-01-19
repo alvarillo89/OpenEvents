@@ -1,6 +1,7 @@
 # Este playbook tieme como objetivo definir por código la creación de la VM en Azure.
 # Puesto que no requiere de ningún host en concreto, colocaremos localhost (ya que este
-# campo no puede quedarse vacío, es obligatorio colocarlo en los playbooks de Ansible). 
+# campo no puede quedarse vacío, es obligatorio colocarlo en los playbooks de Ansible).
+---
 - hosts: localhost
   connection: local
   # Definimos las tareas del playbook:
