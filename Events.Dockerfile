@@ -20,7 +20,7 @@ WORKDIR /usr/src/app
 RUN install_packages python3 python3-pip netbase \
     && python3 -m pip install --no-cache-dir --upgrade pip \
     && python3 -m pip install --no-cache-dir dnspython \
-    gunicorn[eventlet] \
+    gunicorn[gevent] \
     gunicorn \
     hug \
     pymongo
@@ -39,4 +39,4 @@ RUN useradd -m nonroot
 USER nonroot
 
 # Lanzar gunicorn:
-CMD gunicorn --worker-class eventlet -w 10 -b 0.0.0.0:${PORT} events_rest:__hug_wsgi__
+CMD gunicorn --worker-class gevent -w 10 -b 0.0.0.0:${PORT} events_rest:__hug_wsgi__
