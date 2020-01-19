@@ -17,7 +17,7 @@ jobs:
       with:
         IMAGE_NAME: 'events'
         TAG: 'latest'
-        DOCKERFILE_PATH: 'Dockerfile.events'
+        DOCKERFILE_PATH: 'Events.Dockerfile'
         BUILD_CONTEXT: '.'
       env:
         GITHUB_TOKEN: ${{ secrets.GPR_PUSH }}
