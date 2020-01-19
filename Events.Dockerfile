@@ -20,7 +20,7 @@ WORKDIR /usr/src/app
 RUN install_packages python3 python3-pip netbase \
     && python3 -m pip install --no-cache-dir --upgrade pip \
     && python3 -m pip install --no-cache-dir dnspython \
-    eventlet \
+    gunicorn[eventlet] \
     gunicorn \
     hug \
     pymongo
