@@ -12,16 +12,20 @@ ENV DB_URI ${DB_URI}
 WORKDIR /usr/src/app
 
 # Instalar python3
-# Atualizar pip e instalar las dependencias. No usamos el requirements.txt porque
-# contiene módulos que no son necesarios en el contenedor. Además indicamos que no use la caché.
-RUN install_packages python3 python3-pip \
+# Atualizar pip e instalar las dependencias. 
+# Instalar netbase para que se cree el fichero /etc/protocols en el contenedor. Este fichero
+# es necesario para los workers asíncronos de gunicorn.
+# No usamos el requirements.txt porque contiene módulos que no son necesarios en el contenedor. 
+# Además indicamos que no use la caché.
+RUN install_packages python3 python3-pip netbase \
     && python3 -m pip install --no-cache-dir --upgrade pip \
     && python3 -m pip install --no-cache-dir dnspython \
+    eventlet \
     gunicorn \
     hug \
     pymongo
 
-# Copiar solamente los dos scripts de python necesarios:
+# Copiar solamente los tres scripts de python necesarios:
 COPY src/Events.py src/events_rest.py src/mongo_data_manager.py ./
 
 # Esta orden solo tiene carácter informativo. Indica a futuros usuarios de este
@@ -35,4 +39,4 @@ RUN useradd -m nonroot
 USER nonroot
 
 # Lanzar gunicorn:
-CMD gunicorn -w 4 -b 0.0.0.0:${PORT} events_rest:__hug_wsgi__
+CMD gunicorn --worker-class eventlet -w 10 -b 0.0.0.0:${PORT} events_rest:__hug_wsgi__
