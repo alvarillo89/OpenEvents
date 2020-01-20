@@ -129,3 +129,6 @@ start_rabbitMQ.sh
 
 # Ignore ansible roles folder:
 roles/
+
+# Ignore envfiles
+.env*

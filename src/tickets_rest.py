@@ -3,8 +3,7 @@
 import os
 import hug
 from falcon import HTTP_200
-from celery.result import AsyncResult
-from tickets_tasks import tickets, get_ticket
+from tickets_tasks import tickets, get_ticket, app
 
 
 # Call the get ticket task:
@@ -22,7 +21,7 @@ def buy_ticket_request(body: hug.types.json, response):
 # Get the response of the get ticket task:
 @hug.get('/ticket/{task_id}', output=hug.output_format.file)
 def buy_ticket_response(task_id, response):
-    task_result = AsyncResult(task_id)
+    task_result = app.AsyncResult(task_id)
     response = HTTP_200
     return task_result.result
 

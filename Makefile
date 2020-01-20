@@ -24,8 +24,8 @@ clean:
 # 	"--chdir src" sirve para movernos al directorio src antes de que la app se cargue. Es necesario
 # 		porque los scripts de ambos microservicios se encuentra bajo este directorio, sin embargo  
 #		nosotros ejecutamos make desde el directorio raíz.
-#	"--worker-class eventlet" con esta opción especificamos el tipo de workers que utilizará
-#		gunicorn. `eventlet` es un modulo que proporciona workers asíncronos, los cuales nos
+#	"--worker-class gevent" con esta opción especificamos el tipo de workers que utilizará
+#		gunicorn. `gevent` es un modulo que proporciona workers asíncronos, los cuales nos
 #		permitiran obtener mejores prestaciones.
 # 	"-w 10" especifica el número de workers que atenderán las peticiones. Se arrancarán 10 copias
 # 		exactas de cada api rest que atenderán peticiones sobre el mismo puerto. Puesto que queremos
@@ -48,10 +48,10 @@ clean:
 #	- Con --detach hacemos que Celery se ejecute en segundo plano para no bloquear la terminal.
 
 start:
-	gunicorn --chdir src --worker-class eventlet -w 10 -b ${HOST_E}:${PORT_E} -p events.pid \
+	gunicorn --chdir src --worker-class gevent -w 10 -b ${HOST_E}:${PORT_E} -p events.pid \
 		--daemon events_rest:__hug_wsgi__
 	
-	gunicorn --chdir src --worker-class eventlet -w 10 -b ${HOST_T}:${PORT_T} -p tickets.pid \
+	gunicorn --chdir src --worker-class gevent -w 10 -b ${HOST_T}:${PORT_T} -p tickets.pid \
 		--daemon tickets_rest:__hug_wsgi__
 
 	cd src && celery -A tickets_tasks worker --detach

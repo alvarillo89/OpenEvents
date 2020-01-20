@@ -74,7 +74,7 @@ class TestTicketsRestTasks(unittest.TestCase):
         mock_get_ticket.assert_called_with(self.sample_buyer, self.sample_event)
 
 
-    @patch('tickets_rest.AsyncResult')
+    @patch('tickets_rest.app.AsyncResult')
     def test_task_get(self, mock_async):
         """ Test the get request of a previous posted task """
         # Configure the mock return value:

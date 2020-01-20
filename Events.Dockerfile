@@ -4,7 +4,7 @@ FROM bitnami/minideb:latest
 # Información sobre el mantenedor:
 LABEL maintainer="Álvaro alvaro89@correo.ugr.es"
 
-# Definir el puerto y la url de la base de datos como variables de entorno:
+# Definir el puerto y la uri de la base de datos como variables de entorno:
 ENV PORT ${PORT}
 ENV DB_URI ${DB_URI} 
 
