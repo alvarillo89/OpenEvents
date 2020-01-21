@@ -1,0 +1,22 @@
+# Este playbook para la ejecución de los dos microservicios que
+# se están ejecutando en la máquina de azure:
+# Como host seleccionamos todas las máquinas virtuales que tengamos en el
+# grupo "azure":
+---
+- hosts: azure
+  # Activamos el escalado de privilegios. Esto nos permitirá convertirnos en
+  # otro usuario en caso de que no tengamos permisos para ejecutar algo:
+  become: yes
+  tasks:
+    # Parar el contenedor del microservicio events:
+    - name: Docker | Stop events container
+      # Ejecuta el comando en la shell remota:
+      shell: docker stop events
+
+    # Parar el contenedor del microservicio tickets:
+    - name: Docker | Stop tickets container
+      shell: docker stop tickets
+
+    # Parar el contenedor de RabbitMQ:
+    - name: Docker | Stop RabbitMQ container
+      shell: docker stop rabbit
