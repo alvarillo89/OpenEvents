@@ -13,8 +13,8 @@
         resource_group: CloudComputing
         # El nombre de la máquina:
         name: OpenEvents-VM
-        # El tipo de máquina que deseamos. Esta en concreto tiene 1GB de RAM y un core.
-        vm_size: Standard_B1s
+        # El tipo de máquina que deseamos. Esta en concreto tiene 8GB de RAM y 2 cores.
+        vm_size: Standard_D2s_v3
         # El nombre de usuario del administrador de la VM. Nos conectaremos a este usuario
         # por SSH
         admin_username: openevent

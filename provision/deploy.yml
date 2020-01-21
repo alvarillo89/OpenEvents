@@ -1,0 +1,54 @@
+# Este playbook se encarga de arrancar los dos microservicios. Previamente
+# deberá haber creado la máquina virtual con "create_vm.yml" y haberla
+# provisionado con "provision_vm.yml".
+# Como host seleccionamos todas las máquinas virtuales que tengamos en el
+# grupo "azure":
+---
+- hosts: azure
+  # Activamos el escalado de privilegios. Esto nos permitirá convertirnos en
+  # otro usuario en caso de que no tengamos permisos para ejecutar algo:
+  become: yes
+  tasks:
+    # Asegurarse de que mongodb se está ejecutando:
+    - name: MongoDB | Ensure that mongod is running
+      service: 
+        name: mongod
+        state: started
+
+    # Ejecutar el contenedor de RabbitMQ
+    - name: Docker | Run RabbitMQ container
+      docker_container:
+        # --name rabbit
+        name: rabbit
+        image: rabbitmq:3-management
+        # --rm
+        auto_remove: yes
+        # -d
+        detach: yes
+        # -p 5672:5672
+        published_ports:
+            - "5672:5672"
+    
+    # Ejecutar el contenedor del microservicio Events:
+    - name: Docker | Run Events container
+      docker_container:
+        name: events
+        image: alvarillo89/events:latest
+        auto_remove: yes
+        detach: yes
+        # --network="host", para que el localhost se refiera al de la máquina y no
+        # al del contenedor:
+        network_mode: host
+        # El fichero que contiene las variables de entorno de este contenedor:
+        env_file: /home/openevent/.env_events
+
+    # Ejecutar el contenedor del microservicio Events:
+    - name: Docker | Run Tickets container
+      docker_container:
+        name: tickets
+        image: alvarillo89/events:tickets
+        auto_remove: yes
+        detach: yes
+        network_mode: host
+        env_file: /home/openevent/.env_tickets
+
