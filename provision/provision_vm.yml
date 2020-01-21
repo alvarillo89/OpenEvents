@@ -1,0 +1,63 @@
+# Ejecute este script para provisionar la máquina virtual previamente
+# creada con el playbook "create_vm.yml".
+# Como host seleccionamos todas las máquinas virtuales que tengamos en el
+# grupo "azure":
+---
+- hosts: azure
+  # Activamos el escalado de privilegios. Esto nos permitirá convertirnos en
+  # otro usuario en caso de que no tengamos permisos para ejecutar algo:
+  become: yes
+  # Instalamos mongodb y docker en la VM utilizando roles descargados desde
+  # ansible-galaxy:
+  roles:
+    - enix.mongodb
+    - geerlingguy.docker
+  # Especificamos las tareas del playbook:
+  tasks:
+    # Instalamos pip para poder ejecutar la tarea siguiente:
+    - name: Apt | Install python3-pip
+      apt:
+        name: python3-pip
+        state: present
+
+    # Instalamos el módulo de python "docker". Esto nos permitirá
+    # ejecutar las órdenes de Ansible relacionadas con docker:
+    - name: Pip | Install docker python module
+      pip:
+        name: docker
+    
+    # Descargamos la imagen de RabbitMQ
+    - name: Docker | Pull rabbitmq image
+      docker_image:
+        name: rabbitmq:3-management
+        source: pull
+    
+    # Descargamos la imagen del microservicio Events publicada en DockerHub:
+    - name: Docker | Pull events image
+      docker_image:
+        name: alvarillo89/events:latest
+        source: pull
+
+    # Descargamos la imagen del microservicio Tickets publicada en DockerHub:
+    - name: Docker | Pull tickets image
+      docker_image:
+        name: alvarillo89/events:tickets
+        source: pull
+    
+    # Copiamos el fichero que contiene las variables de entorno que
+    # utilizará el contenedor del microservicio Events. Deberá
+    # crear este fichero con su configuración
+    - name: Env | copy events env_file
+      copy:
+        src: ../.env_events
+        dest: /home/openevent/.env_events
+        owner: openevent
+    
+    # Copiamos el fichero que contiene las variables de entorno que
+    # utilizará el contenedor del microservicio Tickets. Deberá
+    # crear este fichero con su configuración
+    - name: Env | copy tickets env_file
+      copy:
+        src: ../.env_tickets
+        dest: /home/openevent/.env_tickets
+        owner: openevent

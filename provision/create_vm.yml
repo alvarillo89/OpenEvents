@@ -18,8 +18,9 @@
         # El nombre de usuario del administrador de la VM. Nos conectaremos a este usuario
         # por SSH
         admin_username: openevent
-        # Los puertos que la máquina tendrá abiertos: el de SSH y el puerto 80:
-        open_ports: [22, 80]
+        # Los puertos que la máquina tendrá abiertos: el de SSH y los puertos 8080, 8081
+        # para cada uno de los microservicios.
+        open_ports: [22, 8080, 8081]
         # Las dos siguientes líneas es para evitar tener que identificarnos mediante una
         # contraseña al conectarnos con SSH. Lo haremos mediante una clave:
         os_type: Linux

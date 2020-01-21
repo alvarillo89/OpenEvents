@@ -67,4 +67,4 @@ stop:
 download:
 	mkdir provision/roles
 	ansible-galaxy install -p provision/roles enix.mongodb
-	ansible-galaxy install -p provision/roles geerlingguy.rabbitmq
+	ansible-galaxy install -p provision/roles geerlingguy.docker
