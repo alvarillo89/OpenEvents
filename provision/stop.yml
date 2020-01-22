@@ -1,9 +1,8 @@
 # Este playbook para la ejecución de los dos microservicios que
-# se están ejecutando en la máquina de azure:
-# Como host seleccionamos todas las máquinas virtuales que tengamos en el
-# grupo "azure":
+# se están ejecutando en la máquina virtual:
+# Como hosts seleccione "azure" o "vagrantbox":
 ---
-- hosts: azure
+- hosts: vagrantbox
   # Activamos el escalado de privilegios. Esto nos permitirá convertirnos en
   # otro usuario en caso de que no tengamos permisos para ejecutar algo:
   become: yes

@@ -1,10 +1,9 @@
 # Este playbook se encarga de arrancar los dos microservicios. Previamente
-# deberá haber creado la máquina virtual con "create_vm.yml" y haberla
-# provisionado con "provision_vm.yml".
-# Como host seleccionamos todas las máquinas virtuales que tengamos en el
-# grupo "azure":
+# deberá haber creado la máquina virtual con "create_azure_vm.yml" o con
+# Vagrant en local y haberla provisionado con "provision_vm.yml".
+# Como hosts seleccione "azure" o "vagrantbox":
 ---
-- hosts: azure
+- hosts: vagrantbox
   # Activamos el escalado de privilegios. Esto nos permitirá convertirnos en
   # otro usuario en caso de que no tengamos permisos para ejecutar algo:
   become: yes
@@ -40,7 +39,7 @@
         # al del contenedor:
         network_mode: host
         # El fichero que contiene las variables de entorno de este contenedor:
-        env_file: /home/openevent/.env_events
+        env_file: /etc/.env_events
 
     # Ejecutar el contenedor del microservicio Events:
     - name: Docker | Run Tickets container
@@ -50,5 +49,5 @@
         auto_remove: yes
         detach: yes
         network_mode: host
-        env_file: /home/openevent/.env_tickets
+        env_file: /etc/.env_tickets
 

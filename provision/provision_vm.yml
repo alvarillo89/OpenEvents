@@ -1,9 +1,8 @@
 # Ejecute este script para provisionar la máquina virtual previamente
-# creada con el playbook "create_vm.yml".
-# Como host seleccionamos todas las máquinas virtuales que tengamos en el
-# grupo "azure":
+# creada con el playbook "create_azure_vm.yml" o con vagrant en local.
+# Como hosts seleccione "azure" o "vagrantbox":
 ---
-- hosts: azure
+- hosts: vagrantbox
   # Activamos el escalado de privilegios. Esto nos permitirá convertirnos en
   # otro usuario en caso de que no tengamos permisos para ejecutar algo:
   become: yes
@@ -50,8 +49,7 @@
     - name: Env | copy events env_file
       copy:
         src: ../.env_events
-        dest: /home/openevent/.env_events
-        owner: openevent
+        dest: /etc/.env_events
     
     # Copiamos el fichero que contiene las variables de entorno que
     # utilizará el contenedor del microservicio Tickets. Deberá
@@ -59,5 +57,4 @@
     - name: Env | copy tickets env_file
       copy:
         src: ../.env_tickets
-        dest: /home/openevent/.env_tickets
-        owner: openevent
+        dest: /etc/.env_tickets

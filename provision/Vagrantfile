@@ -1,0 +1,15 @@
+# Este fichero sirve para crear en local la máquina virtual que alojará ambos
+# microservicios:
+
+Vagrant.configure("2") do |config|
+  # Como imagen utilizaremos el box de Ubuntu 18.04 LTS:
+  config.vm.box = "ubuntu/bionic64"
+  # Redirigimos los puertos de la máquina anfitriona a la máquina virtual:
+  config.vm.network "forwarded_port", guest: 8080, host: 8080
+  config.vm.network "forwarded_port", guest: 8081, host: 8081
+  # Especificamos la memoria que utilizará y el número de cores: 4GB y 2 cores
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 4096
+    v.cpus = 2
+  end
+end
