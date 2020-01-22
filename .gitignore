@@ -132,3 +132,6 @@ roles/
 
 # Ignore envfiles
 .env*
+
+# Ignore .vagrant files:
+.vagrant
