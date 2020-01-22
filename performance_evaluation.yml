@@ -3,7 +3,7 @@ execution:
     - concurrency: 10   # 10 usuarios simultáneos
       ramp-up: 10s    # En 10s se alcanzan los 10 usuarios
       hold-for: 50s   # Cada usuario mantiene la conexión durante 50s
-      scenario: events-rest-test  # Nombre del test (escenario) a ejecutar
+      scenario: events-vm  # Nombre del test (escenario) a ejecutar
 
 # Ahora definimos el test/escenario a ejecutar:
 scenarios:
@@ -32,3 +32,32 @@ scenarios:
           method: GET
         - url: http://localhost:8080/event/title/NonExisting
           method: GET
+    
+    # Test ejecutados sobre el microservicio events en la máquina virtual:
+    # IP = 40.71.169.229 para azure
+    # IP = 127.0.0.1 para vagrant
+    events-vm:
+      # Realizará tres peticiones GET diferentes a tres eventos diferentes:
+      requests:
+        - url: http://127.0.0.1:8080/event/title/Sample title
+          method: GET
+        - url: http://127.0.0.1:8080/event/title/Sample title2
+          method: GET
+        - url: http://127.0.0.1:8080/event/title/Sample title3
+          method: GET
+    
+    # Test ejecutados sobre el microservicio events en la máquina virtual:
+    # IP = 40.71.169.229 para azure
+    # IP = 127.0.0.1 para vagrant
+    # Los dos primeros IDs deberá volver a colocarlos cuando realice el test,
+    # puesto que son temporales.
+    tickets-vm:
+      # Realizará tres peticiones GET diferentes: dos entradas y una consulta
+      # de la validez de una entrada:
+      requests:
+        - url: http://127.0.0.1:8081/ticket/13e5a4aa-6bd1-4781-aba9-73620dca95f6
+          method: GET
+        - url: http://127.0.0.1:8081/ticket/a79dee35-9b54-4831-9773-a3518904772f
+          method: GET
+        - url: http://127.0.0.1:8081/ticket/isvalid/72d9079248d44d47ade85a4b55ab2608-000000000000000000000000-Samplebuyername
+          method: GET    
