@@ -143,3 +143,22 @@ Con 4GB de RAM menos que Azure, alcanza mejores prestaciones. Esto demuestra que
 
 - La latencia de las comunicaciones (me decanto por este, ya que en local el tiempo de respuesta medio es de solo 8 y 14 ms).
 - Azure limita las peticiones (si que es cierto que Azure impone restricciones en función de la suscripción, aunque no he podido encontra si limita las peticiones).
+
+---
+
+## Referencias
+
+- https://docs.ansible.com/ansible/2.9/reference_appendices/interpreter_discovery.html
+- http://jj.github.io/CC/documentos/temas/Provision.html
+- https://blog.deiser.com/es/primeros-pasos-con-ansible
+- https://docs.ansible.com/ansible/latest/modules/service_module.html
+- https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html
+- https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html
+- https://docs.ansible.com/ansible/latest/modules/azure_rm_virtualmachine_module.html-azure-rm-virtualmachine-module
+- https://docs.ansible.com/ansible/latest/modules/docker_image_module.html
+- https://docs.ansible.com/ansible/latest/modules/apt_module.html
+- https://docs.ansible.com/ansible/latest/modules/pip_module.html
+- https://docs.ansible.com/ansible/latest/user_guide/become.html
+- https://docs.ansible.com/ansible/latest/modules/docker_container_module.html
+- https://docs.ansible.com/ansible/latest/modules/copy_module.html
+- https://docs.ansible.com/ansible/latest/modules/shell_module.html
