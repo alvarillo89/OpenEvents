@@ -75,6 +75,12 @@ $ make stop
 
 *Finaliza la ejecución de los servicios web de ambos microservicios y todos sus workers. También para la ejecución de Celery.*
 
+```
+make download
+```
+
+*Descarga de [Ansible Galaxy](https://galaxy.ansible.com/home) todos los roles que son necesarios para el provisionamiento de las máquinas virtuales (para instalar MongoDB y docker). Los roles descargados se situarán en el directorio `/provision/roles/`*.
+
 Para más detalles, consulte el [**fichero Makefile**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/Makefile), el cual contiene comentarios explicativos.
 
 ---
@@ -136,3 +142,13 @@ La implementación de este microservicio incluye los tres scripts siguientes:
 - [**tickets_rest.py**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/src/tickets_rest.py)
 
 Puede consultar con mayor detalle la documentación sobre como se ha implementado este microservicio y como se ha integrado con el resto del sistema en la [descripción de la Arquitectura de la aplicación](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/architecture.md).
+
+---
+
+### Provisionamiento de máquinas virtuales con Ansible
+
+Para finalizar con este proyecto, se ha realizado el despliegue de ambos microservicios (`Events` y `Tickets`) en máquinas virtuales. Se ha llevado a cabo el despliegue tanto en una máquina virtual local, como en la plataforma de [Microsoft Azure](https://azure.microsoft.com/es-es/).
+
+Para el provisionamiento y demás tareas de automatización, se ha utilizado [Ansible](https://www.ansible.com/).
+
+Puede consultar con mayor detalle la documentación sobre este apartado en el [**siguiente enlace**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/ansible.md).
