@@ -36,7 +36,7 @@ Solo obtenemos 24 peticiones/s con un tiempo medio de respuesta de 380ms, un res
 La primera modificación que realizaremos será cambiar el tipo de worker de Gunicorn y aumentar el número de copias de los mismos:
 
 - Si deseamos mantener a 10 usuarios simultáneos, debemos establecer un worker por cada uno de ellos. En consecuencia, aumentaremos su número de 4 a 10.
-- Por defecto, Gunicorn utiliza workers síncronos, es decir, cada petición bloquea al proceso. En principio, alcanzaríamos mejores resultados si los workers fueran asíncronos (no bloqueantes). Esto lo podemos conseguir cambiando el tipo de workers que se utilizan con el parámetro `--worker-class` en la ejecución de Gunicorn. De entre todos los valores que puede recibir esta clase, hemos elegido [gevent](http://www.gevent.org/), un módulo de redes concurrentes para Python, el cual nos proprociona workers asíncronos.
+- Por defecto, Gunicorn utiliza workers síncronos, es decir, cada petición bloquea al proceso. En principio, alcanzaríamos mejores resultados si los workers fueran asíncronos (no bloqueantes). Esto lo podemos conseguir cambiando el tipo de workers que se utilizan con el parámetro `--worker-class` en la ejecución de Gunicorn. De entre todos los valores que puede recibir esta clase, hemos elegido [eventlet](https://pypi.org/project/eventlet/), un módulo de redes concurrentes para Python, el cual nos proprociona workers asíncronos.
 
 Hechas estas modificaciones (las cuales pueden verse en el [Makefile](https://github.com/alvarillo89/UGR-CC-Project/blob/master/Makefile)), repetimos los tests.
 

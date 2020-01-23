@@ -3,7 +3,7 @@ hug==2.6.0
 gunicorn==20.0.2
 pymongo==3.10.0
 dnspython==1.16.0
-gevent==1.5a2
+eventlet==0.25.1
 treepoem==3.1.0
 reportlab==3.5.32
 celery==4.4.0
