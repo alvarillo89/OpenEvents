@@ -26,7 +26,7 @@ jobs:
       # Instalar mongodb para los tests:
       - name: Start MongoDB
         run: |
-          choco install mongodb
+          choco install mongodb --version=4.2.3
           mkdir C:\data\db
           "C:\Program Files\MongoDB\Server\4.2\bin\mongod.exe"
       # Instalar las depedencias necesarias para los test:
