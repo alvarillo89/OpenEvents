@@ -6,7 +6,7 @@ on: [push]
 jobs:
   build:
     # Los test se realizarán en windows:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     # Se probará con 3 versiones de Python en paralelo:
     strategy:
       max-parallel: 1
@@ -25,9 +25,9 @@ jobs:
           python-version: ${{ matrix.python-version }}
       # Instalar mongodb para los tests:
       - name: Start MongoDB
-        uses: wbari/start-mongoDB@v0.2
-        with:
-          mongoDBVersion: 4.2
+        run: |
+          choco install mongodb
+          mongod
       # Instalar las depedencias necesarias para los test:
       - name: Install dependencies
         run: |
