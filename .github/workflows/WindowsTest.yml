@@ -28,9 +28,7 @@ jobs:
         run: |
           choco install mongodb
           mkdir C:\data\db
-          ls "C:\Program Files\MongoDB\Server\4.2\bin"
-          cd "C:\Program Files\MongoDB\Server\4.2\bin"
-          mongod
+          "C:\Program Files\MongoDB\Server\4.2\bin\mongod.exe"
       # Instalar las depedencias necesarias para los test:
       - name: Install dependencies
         run: |
