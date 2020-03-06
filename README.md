@@ -113,6 +113,8 @@ https://openevents.herokuapp.com
 
 Consulte el [**siguiente enlace**](https://github.com/alvarillo89/UGR-CC-Project/blob/master/docs/heroku.md) para conocer más detalles sobre el proceso seguido para el despliegue.
 
+> Nota: la aplicación ya no se encuentra desplegada en Heroku. Si desea desplegarla usted mismo, pulse el botón de Heroku.
+
 ---
 
 ### Almacén de Datos
