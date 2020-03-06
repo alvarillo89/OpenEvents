@@ -6,7 +6,7 @@ on: [push]
 jobs:
   build:
     # Los test se realizarán en windows:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     # Se probará con 3 versiones de Python en paralelo:
     strategy:
       max-parallel: 1
