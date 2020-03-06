@@ -23,6 +23,11 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
+      # Instalar mongodb para los tests:
+      - name: Start MongoDB
+        uses: superchargejs/mongodb-github-action@1.1.0
+        with:
+          mongodb-version: 4.2
       # Instalar las depedencias necesarias para los test:
       - name: Install dependencies
         run: |
